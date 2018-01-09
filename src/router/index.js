@@ -9,6 +9,11 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    //  首页
+    {
+      path:'/',
+      redirect:'/findMusic'
+    },
     {
       path:'/myMusic',
       component: myMusic

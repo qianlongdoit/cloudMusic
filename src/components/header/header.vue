@@ -38,13 +38,15 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+  @import "../../common/theme.styl"
   .header
     position fixed
     top 0
     left 0
     right 0
+    height 60px
     .header-wrapper
-      background #c63f2f
+      background $themeRed
       height:100%
       display flex
       align-items center
@@ -52,6 +54,7 @@
       i
         color #fff
         font-size 26px
+        line-height 60px
         padding 10px 15px
       /*.menu*/
       .navbar
