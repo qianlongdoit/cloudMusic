@@ -1,53 +1,55 @@
 <template>
-  <div class="header">
-    <div class="header-wrapper">
-      <i class="menu icon-menu" @click="showSideBar"></i>
+  <div class="main">
+    <section class="header">
+      <div class="header-wrapper">
+        <i class="menu icon-menu" @click="showSideBar"></i>
 
-      <div class="navbar">
-        <router-link to="/myMusic">
-          <i class="music icon-music"></i>
-        </router-link>
+        <div class="navbar">
+          <router-link to="/myMusic">
+            <i class="music icon-music"></i>
+          </router-link>
 
-        <router-link to="/findMusic">
-          <i class="music icon-wangyi"></i>
-        </router-link>
+          <router-link to="/findMusic">
+            <i class="music icon-wangyi"></i>
+          </router-link>
 
-        <router-link to="/community">
-          <i class="music icon-community"></i>
-        </router-link>
+          <router-link to="/community">
+            <i class="music icon-community"></i>
+          </router-link>
+        </div>
+
+        <i class="search icon-search"></i>
       </div>
-
-      <i class="search icon-search"></i>
-    </div>
+    </section>
 
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
+  import store from '../../store'
 
   export default {
-    data(){
-      return {msg:'Data'}
-    },
-    methods:mapMutations([
-      'showSideBar'
-    ])
+    methods: {
+      showSideBar(){
+        store.commit('showSideBar')
+        console.log(store.state.sideBar.isShow)
+      }
+    }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import "../../common/theme.styl"
   .header
+    height 60px
     position fixed
     top 0
     left 0
     right 0
-    height 60px
     .header-wrapper
       background $themeRed
-      height:100%
+      height 100%
       display flex
       align-items center
       justify-content space-between
@@ -55,8 +57,7 @@
         color #fff
         font-size 26px
         line-height 60px
-        padding 10px 15px
-      /*.menu*/
+        padding 0 15px
       .navbar
         i
           color #ccafaf

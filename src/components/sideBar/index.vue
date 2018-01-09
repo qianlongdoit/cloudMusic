@@ -23,7 +23,7 @@
           </span>
         </div>
 
-        <div class="content">
+        <div class="list_wrapper">
           <v-sidelist :listDetail="{iconClass:'icon-message',title:'我的消息'}"></v-sidelist>
           <v-sidelist :listDetail="{iconClass:'icon-vip',title:'我的会员',remark:'2019.01.07到期'}"></v-sidelist>
           <v-sidelist :listDetail="{iconClass:'icon-market',title:'商城'}"></v-sidelist>
@@ -59,17 +59,21 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import store from '../../store'
   import  sideBarList from './sideBarList.vue'
   import split from './split.vue'
 
   export default {
-    computed: mapState([
-      'isShow'
-    ]),
-    methods: mapMutations([
-      'hideSideBar'
-    ]),
+    computed: {
+      isShow(){
+        return store.state.sideBar.isShow
+      }
+    },
+    methods: {
+      hideSideBar(){
+        store.commit('hideSideBar')
+      }
+    },
     components: {
       'v-sidelist': sideBarList,
       'v-split': split

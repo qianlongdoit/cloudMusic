@@ -8,7 +8,7 @@
 
 <script>
   import header from './components/header/header.vue'
-  import sidebar from './components/sideBar/sidebar.vue'
+  import sidebar from './components/sideBar/index.vue'
 
   export default {
     name: 'app',

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     this is find musis
   </div>
 </template>
