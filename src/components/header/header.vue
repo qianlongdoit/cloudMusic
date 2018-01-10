@@ -33,13 +33,12 @@
     methods: {
       showSideBar(){
         store.commit('showSideBar')
-        console.log(store.state.sideBar.isShow)
       }
     }
   }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus" scoped>
+<style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/theme.styl"
   .header
     height 60px

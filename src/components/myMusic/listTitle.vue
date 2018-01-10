@@ -1,9 +1,9 @@
 <template>
-  <div class="listBand">
-    <i class="icon icon-down" :class="[isHidden?'icon-down':'icon-right']"></i>
+  <div class="listBand" @click="toggle">
+    <i class="icon icon-down" :class="[notHidden?'icon-down':'icon-right']"></i>
     <span class="title">
-      创建的歌单
-      <b>({{22}})</b>
+      {{title}}
+      <b>({{total}})</b>
     </span>
     <i class="setting icon-setting"></i>
   </div>
@@ -12,8 +12,8 @@
 <script>
   export default {
     props: {
-      listInfo: {
-        isHidden: {
+      listDetail: {
+        notHidden: {
           type: Boolean,
           default: true
         },
@@ -29,13 +29,26 @@
     },
     data(){
       return {
-        isHidden: this.listInfo.isHidden,
-        title: this.listInfo.title,
-        total: this.listInfo.total,
+//        notHidden: this.listDetail.notHidden,
+        title: this.listDetail.title,
+        total: this.listDetail.total,
+        count: 0
+      }
+    },
+    computed:{
+      notHidden(){
+        return this.listDetail.notHidden
+      }
+    },
+    methods:{
+      toggle(){
+//        this.listDetail.notHidden = !this.listDetail.notHidden;
+//        console.log(this.listDetail.notHidden)
+        this.count++
       }
     },
     mounted(){
-      console.log(this.listInfo)
+      console.log(this.listDetail)
     }
   }
 </script>

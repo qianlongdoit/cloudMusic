@@ -5,8 +5,8 @@
     <v-main :menuInfo="{icon:'icon-download',title:'下载管理',count:611}"></v-main>
     <v-main :menuInfo="{icon:'icon-diantai',title:'我的电台',count:1}"></v-main>
     <v-main :menuInfo="{icon:'icon-collect',title:'我的收藏',count:0}"></v-main>
-    <v-createdlist :listInfo="{tittle:'创建的歌单'}"></v-createdlist>
-    <v-createdlist :listInfo="{tittle:'收藏的歌单'}"></v-createdlist>
+    <v-createdlist :listInfo="{title:'创建的歌单',total:22}"></v-createdlist>
+    <v-createdlist :listInfo="{title:'收藏的歌单',total:6}"></v-createdlist>
   </div>
 </template>
 

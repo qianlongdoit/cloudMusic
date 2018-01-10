@@ -1,7 +1,7 @@
 <template>
   <div class="createdList">
-    <v-listtile @click.native="toggle" :listInfo="{isHidden}"></v-listtile>
-    <div class="musicListWrapper" v-show="isHidden">
+    <v-listtile @click.native="toggle" :listDetail="listDetail"></v-listtile>
+    <div class="musicListWrapper" v-show="listDetail.notHidden">
       <v-musiclist></v-musiclist>
       <v-musiclist></v-musiclist>
       <v-musiclist></v-musiclist>
@@ -17,10 +17,6 @@
   export default {
     props:{
       listInfo: {
-        isHidden: {
-          type: Boolean,
-          default: true
-        },
         title:{
           type: String,
           default: '创建的歌单'
@@ -33,13 +29,26 @@
     },
     data(){
       return {
-        isHidden: true
+        listDetail: {
+          notHidden: true,
+          title: this.listInfo.title,
+          total: this.listInfo.total
+        }
+      }
+    },
+    computed:{
+      notHidden(){
+        return this.listDetail.notHidden
       }
     },
     methods:{
       toggle(){
-        this.isHidden = !this.isHidden;
+        this.listDetail.notHidden = !this.listDetail.notHidden;
+//        console.log(listDetail.notHidden)
       }
+    },
+    mounted(){
+      console.log("now: ",this.listDetail)
     },
     components: {
       'v-listtile': listTitle,
