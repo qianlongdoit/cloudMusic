@@ -1,5 +1,5 @@
 <template>
-  <div class="listBand" @click="toggle">
+  <div class="listBand">
     <i class="icon icon-down" :class="[notHidden?'icon-down':'icon-right']"></i>
     <span class="title">
       {{title}}
@@ -29,26 +29,14 @@
     },
     data(){
       return {
-//        notHidden: this.listDetail.notHidden,
         title: this.listDetail.title,
-        total: this.listDetail.total,
-        count: 0
+        total: this.listDetail.total
       }
     },
     computed:{
       notHidden(){
         return this.listDetail.notHidden
       }
-    },
-    methods:{
-      toggle(){
-//        this.listDetail.notHidden = !this.listDetail.notHidden;
-//        console.log(this.listDetail.notHidden)
-        this.count++
-      }
-    },
-    mounted(){
-      console.log(this.listDetail)
     }
   }
 </script>
@@ -56,7 +44,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .listBand
     height 28px
-    background #e1e1e1
+    background #e2e2e2
     .icon, .title, .setting
       line-height 28px
       vertical-align middle

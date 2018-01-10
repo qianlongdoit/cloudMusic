@@ -36,19 +36,10 @@
         }
       }
     },
-    computed:{
-      notHidden(){
-        return this.listDetail.notHidden
-      }
-    },
     methods:{
       toggle(){
         this.listDetail.notHidden = !this.listDetail.notHidden;
-//        console.log(listDetail.notHidden)
       }
-    },
-    mounted(){
-      console.log("now: ",this.listDetail)
     },
     components: {
       'v-listtile': listTitle,
