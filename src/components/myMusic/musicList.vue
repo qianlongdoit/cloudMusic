@@ -27,11 +27,12 @@
   .musicList
     display flex
     box-sizing border-box
-    height 68px
+    height 70px
+    background #f3f3f3
     .cover
       width 60px
       height 60px
-      margin 4px 4px
+      margin 5px 5px
     .detail
       position relative
       width 100%

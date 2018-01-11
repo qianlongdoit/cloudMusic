@@ -43,6 +43,7 @@
   .mainMenu
     height 55px
     position relative
+    background #f3f3f3
     .icon,.title,.count
       line-height 55px
       vertical-align middle
