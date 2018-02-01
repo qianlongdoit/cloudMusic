@@ -35,6 +35,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+  @import "../../common/base.styl"
   .list
     width 100%
     height 45px
@@ -42,6 +43,8 @@
     box-sizing border-box
     padding 0 15px
     position relative
+    &:active
+      background $link_acitve
     .icon, .title, .remark
       display inline-block
       line-height 40px

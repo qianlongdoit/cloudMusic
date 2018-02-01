@@ -9,21 +9,33 @@
         <div class="bg-img" :style="{backgroundImage:'url(../../../static/images/bg.jpg)'}"></div>
 
         <div class="userInfo">
-          <img class="avatar" src="../../../static/images/userlogo.jpg" alt="头像">
-          <p class="detail">
-            <span class="name">gofor</span>
-            <img class="vip-ico" src="../../../static/images/vip.png" alt="会员">
-            <i class="level">LV.9</i>
-          </p>
-          <span class="sign">
+          <!--登录状态-->
+          <div class="logined" v-show="isLogin">
+            <img class="avatar" src="../../../static/images/userlogo.jpg" alt="头像">
+            <p class="detail">
+              <span class="name">gofor</span>
+              <img class="vip-ico" src="../../../static/images/vip.png" alt="会员">
+              <i class="level">LV.9</i>
+            </p>
+            <span class="sign">
             <a href="">
               签到
               <span class="icon-right" v-show="false"></span>
             </a>
           </span>
+          </div>
+
+          <!--未登录状态-->
+          <div class="unlogin" v-show="!isLogin">
+            <p class="tips">登录网易云音乐</p>
+            <p class="tips">320K高音质无限下载，手机电脑多端同步</p>
+            <button class="btn-login" type="button" @click="showLogin">
+              立即登录
+            </button>
+          </div>
         </div>
 
-        <div class="list_wrapper">
+        <div class="list-wrapper">
           <v-sidelist :listDetail="{iconClass:'icon-message',title:'我的消息'}"></v-sidelist>
           <v-sidelist :listDetail="{iconClass:'icon-vip',title:'我的会员',remark:'2019.01.07到期'}"></v-sidelist>
           <v-sidelist :listDetail="{iconClass:'icon-market',title:'商城'}"></v-sidelist>
@@ -55,15 +67,22 @@
         </div>
       </div>
     </transition>
+
+    <!--登录界面-->
+    <v-login></v-login>
   </div>
 </template>
 
 <script>
   import store from '../../store'
-  import  sideBarList from './sideBarList.vue'
+  import sideBarList from './sideBarList.vue'
   import split from './split.vue'
+  import login from '../login/index.vue'
 
   export default {
+      data() {
+          return {isLogin: false}
+      },
     computed: {
       isShow(){
         return store.state.sideBar.isShow
@@ -72,16 +91,21 @@
     methods: {
       hideSideBar(){
         store.commit('hideSideBar')
+      },
+      showLogin(){
+          this.isLogin = false;
       }
     },
     components: {
       'v-sidelist': sideBarList,
-      'v-split': split
+      'v-split': split,
+      'v-login': login
     }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import '../../common/base.styl'
   .sidebar
     .sidebar-mask
       position fixed
@@ -121,6 +145,7 @@
         position absolute
         top 0
         filter blur(1px)
+        opacity 0.8
       .userInfo
         height 200px
         width 100%
@@ -128,6 +153,27 @@
         box-sizing border-box
         position relative
         backgroundSize cover
+        .unlogin
+          width 100%
+          margin 0 auto
+          text-align center
+          padding-top 20px
+        .tips
+          font-size 13px
+          line-height 20px
+          color #e8e8e8
+        .btn-login
+          font-size 16px
+          line-height 24px
+          background none
+          color #fff
+          padding 2px 40px
+          margin-top 15px
+          border 1px solid #cccccc
+          border-radius 15px
+          outline none
+          &:active
+            background $link_acitve
         .avatar
           width 80px
           height 80px

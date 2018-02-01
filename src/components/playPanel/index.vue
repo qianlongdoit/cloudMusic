@@ -1,6 +1,6 @@
 <template>
   <section class="play-panel">
-    <img class="song-cover" src="../../../static/musiclist/10.jpg" alt="">
+    <img class="song-cover" src="../../../static/musiclist/10.jpg">
 
     <div class="summary">
       <div class="song-name-wrapper">
