@@ -1,5 +1,5 @@
 <template>
-  <div class="login" v-show="isShow">
+  <div class="login" v-show="show">
     <div class="header">
       <p>
         <i class="icon icon-back" @click="hidden"></i>
@@ -29,15 +29,29 @@
 
 <script>
   export default{
-    data(){
-        return {
-            isShow: true
-        }
+    props: {
+      isShow: {
+        type: Boolean,
+        default: false
+      }
+    },
+//    data(){
+//      return {
+//        show: true
+//      }
+//    },
+    computed: {
+      show(){
+        return this.isShow;
+      }
     },
     methods: {
       hidden(){
-        this.isShow = false
+        this.show = false;
       }
+    },
+    mounted(){
+//      this.show = this.isShow
     }
   }
 </script>
@@ -62,6 +76,7 @@
           display inline-block
           line-height 60px
           padding 0 20px
+
   .login-body
     margin-top 60px
     padding 10px 18px 0

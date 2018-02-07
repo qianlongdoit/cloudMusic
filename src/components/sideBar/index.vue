@@ -29,7 +29,7 @@
           <div class="unlogin" v-show="!isLogin">
             <p class="tips">登录网易云音乐</p>
             <p class="tips">320K高音质无限下载，手机电脑多端同步</p>
-            <button class="btn-login" type="button" @click="showLogin">
+            <button class="btn-login" type="button" @click="turnToLogin">
               立即登录
             </button>
           </div>
@@ -69,7 +69,7 @@
     </transition>
 
     <!--登录界面-->
-    <v-login></v-login>
+    <v-login :isShow="showLoginPage"></v-login>
   </div>
 </template>
 
@@ -81,7 +81,10 @@
 
   export default {
       data() {
-          return {isLogin: false}
+          return {
+            isLogin: false,
+            showLoginPage: false
+          }
       },
     computed: {
       isShow(){
@@ -92,8 +95,8 @@
       hideSideBar(){
         store.commit('hideSideBar')
       },
-      showLogin(){
-          this.isLogin = false;
+      turnToLogin(){
+          this.showLoginPage = true;
       }
     },
     components: {
