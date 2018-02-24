@@ -1,5 +1,5 @@
 <template>
-  <div class="login" v-show="show">
+  <div class="login">
     <div class="header">
       <p>
         <i class="icon icon-back" @click="hidden"></i>
@@ -22,36 +22,32 @@
         </label>
       </div>
 
-      <button class="btn-login" type="button">登录</button>
+      <button class="btn-login" type="button" @click="login">登录</button>
+    </div>
+
+    <div class="login-bottom">
+
     </div>
   </div>
 </template>
 
 <script>
+  import store from '../../store'
+
   export default{
-    props: {
-      isShow: {
-        type: Boolean,
-        default: false
-      }
-    },
-//    data(){
-//      return {
-//        show: true
-//      }
-//    },
-    computed: {
-      show(){
-        return this.isShow;
-      }
-    },
     methods: {
       hidden(){
-        this.show = false;
+        store.commit('hideLoginPage')
+      },
+      login(){
+        this.$http.get('/song/detail?ids=347230')
+          .then(res => {
+            console.log(res)
+          })
+          .catch(res => {
+            console.log(res)
+          })
       }
-    },
-    mounted(){
-//      this.show = this.isShow
     }
   }
 </script>

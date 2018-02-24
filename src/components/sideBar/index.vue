@@ -69,7 +69,7 @@
     </transition>
 
     <!--登录界面-->
-    <v-login :isShow="showLoginPage"></v-login>
+    <v-login v-show="showLoginPage"></v-login>
   </div>
 </template>
 
@@ -82,13 +82,15 @@
   export default {
       data() {
           return {
-            isLogin: false,
-            showLoginPage: false
+            isLogin: false
           }
       },
     computed: {
       isShow(){
         return store.state.sideBar.isShow
+      },
+      showLoginPage(){
+        return store.state.sideBar.showLoginPage
       }
     },
     methods: {
@@ -96,7 +98,7 @@
         store.commit('hideSideBar')
       },
       turnToLogin(){
-          this.showLoginPage = true;
+          store.commit('showLoginPage')
       }
     },
     components: {

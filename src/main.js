@@ -10,6 +10,9 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  http:{
+    root: 'http://127.0.0.1:3000'
+  },
   router,
   store,
   render(h){

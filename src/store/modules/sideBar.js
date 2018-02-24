@@ -2,7 +2,8 @@
  * Created by Administrator on 2018/1/7.
  */
 const state = {
-  isShow: false
+  isShow: false,
+  showLoginPage: false
 }
 
 const mutations = {
@@ -11,6 +12,13 @@ const mutations = {
   },
   hideSideBar(state){
     state.isShow = false;
+  },
+
+  showLoginPage(state){
+    state.showLoginPage = true;
+  },
+  hideLoginPage(state){
+    state.showLoginPage = false;
   }
 }
 
