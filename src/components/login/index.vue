@@ -11,14 +11,14 @@
       <div class="input-wrapper">
         <label>
           <i class="icon"></i>
-          <input type="number" placeholder="填写手机号">
+          <input type="email" v-model="user" placeholder="填写手机号">
         </label>
       </div>
 
       <div class="input-wrapper">
         <label>
           <i class="icon"></i>
-          <input type="password" placeholder="请输入密码">
+          <input type="password" v-model="psd" placeholder="请输入密码">
         </label>
       </div>
 
@@ -33,16 +33,30 @@
 
 <script>
   import store from '../../store'
+  import global from  '../../global'
 
   export default{
+    data(){
+      return {
+        user: '',
+        psd: ''
+      }
+    },
     methods: {
       hidden(){
         store.commit('hideLoginPage')
       },
+      //  登录
       login(){
-        this.$http.get('/song/detail?ids=347230')
+        //  手机登录
+        var user = this.user;
+        var psd = this.psd;
+        console.log(user, psd);
+        this.$axios.get(global.serverAddress + '/login/cellphone?phone=' + user + '&password=' + psd)
           .then(res => {
             console.log(res)
+            //  TODO
+            //  登陆后的跳转，个人资料信息的显示
           })
           .catch(res => {
             console.log(res)
