@@ -1,11 +1,13 @@
 <template>
-  <div class="content">
-    this is find music
+  <div>
+    ddd
   </div>
 </template>
 
 <script>
+  export default {
 
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
