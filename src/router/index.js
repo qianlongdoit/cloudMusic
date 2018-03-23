@@ -5,6 +5,8 @@ import myMusic from '../components/myMusic/index.vue'
 
 import findMusic from '../components/findMusic/index.vue'
 import discover from '../components/findMusic/discover.vue'
+import video from '../components/findMusic/video.vue'
+import station from '../components/findMusic/station.vue'
 
 import community from '../components/community/index.vue'
 
@@ -26,12 +28,16 @@ export default new Router({
       component: findMusic,
       children: [
         {
-          path: 'discover',
+          path: '/findMusic/discover',
           component: discover
         },
         {
-          path: 'video',
-          component: ''
+          path: '/findMusic/video',
+          component: video
+        },
+        {
+          path: '/findMusic/station',
+          component: station
         }
       ]
     },

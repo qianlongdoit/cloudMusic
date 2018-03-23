@@ -23,15 +23,5 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .content
-    position fixed
-    top 60px
-    left 0
-    right 0
-    overflow auto
-    height 100%
-    -webkit-overflow-scrolling: touch
-    &::-webkit-scrollbar
-      display none
-      width 0
+  @import '../../common/stylus/global.styl'
 </style>

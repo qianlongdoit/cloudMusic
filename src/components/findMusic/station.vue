@@ -1,13 +1,15 @@
 <template>
-  <div class="content">
-    this is community
-  </div>
+    <div>
+      station
+    </div>
 </template>
 
 <script>
+  export default{
 
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import '../../common/stylus/global.styl'
+
 </style>

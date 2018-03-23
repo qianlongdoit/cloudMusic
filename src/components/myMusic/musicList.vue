@@ -2,7 +2,6 @@
   <div class="musicList">
     <img src="../../../static/musiclist/2.jpg" alt="" class="cover">
     <div class="detail">
-
       <div class="detailWrapper">
         <p class="listTitle">我喜欢的音乐</p>
         <i class="down"></i>
