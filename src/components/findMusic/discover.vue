@@ -35,6 +35,7 @@
       this.imgs = JSON.parse(JSON.stringify(this.icon))
     },
     mounted(){
+      console.log('mounted')
       var oSlide = document.querySelector('.slide');
       var oFocus = document.querySelectorAll('.focus li');
       var width = document.querySelector('.slide img').offsetWidth;
@@ -44,12 +45,14 @@
 
       autoSlide.init(oSlide, oFocus, width, 0)
       autoSlide.play();
+    },
+    destroyed(){
+      autoSlide.pause();  //路由切换时销毁自动播放，否则切换路由时会被再次初始化
     }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import '../../common/stylus/global.styl'
   @import "../../common/theme.styl"
   ::before, ::after
     padding 0

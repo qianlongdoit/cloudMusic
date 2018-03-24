@@ -23,5 +23,5 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import '../../common/stylus/global.styl'
+
 </style>
