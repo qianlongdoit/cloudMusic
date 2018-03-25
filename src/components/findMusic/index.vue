@@ -19,7 +19,7 @@
 <script>
   export default {
     created(){
-      this.$router.push({path: '/findMusic/video'})
+      this.$router.push({path: '/findMusic/discover'})
     }
   }
 </script>
