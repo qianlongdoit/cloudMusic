@@ -33,7 +33,6 @@
       this.imgs = JSON.parse(JSON.stringify(this.icon))
     },
     mounted(){
-      console.log('mounted')
       var oSlide = document.querySelector('.slide');
       var oFocus = document.querySelectorAll('.focus li');
       var width = document.querySelector('.slide img').offsetWidth;

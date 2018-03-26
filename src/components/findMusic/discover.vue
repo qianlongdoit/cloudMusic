@@ -7,16 +7,19 @@
       <v-option :recInfo="{icon:'icon-list-music',text:'歌单',link:'/musicList'}"></v-option>
       <v-option :recInfo="{icon:'icon-rank-list',text:'排行榜',link:'/musicRank'}"></v-option>
     </div>
+    <v-recommendList></v-recommendList>
   </div>
 </template>
 
 <script>
   import slide from './slide.vue'
   import recommendOption from './recommendOption.vue'
+  import recommendList from './recommendList.vue'
   export default {
     components: {
       "v-slide": slide,
-      "v-option": recommendOption
+      "v-option": recommendOption,
+      "v-recommendList": recommendList
     }
   }
 </script>

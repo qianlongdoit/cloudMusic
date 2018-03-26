@@ -10,14 +10,14 @@
 </template>
 
 <script>
-  import header from './components/header/header.vue'
+  import main from './components/header/main.vue'
   import sidebar from './components/sideBar/index.vue'
   import playPanel from './components/playPanel/index.vue'
 
   export default {
     name: 'app',
     components: {
-      'v-header': header,
+      'v-header': main,
       'v-sidebar': sidebar,
       'v-play': playPanel
     }
