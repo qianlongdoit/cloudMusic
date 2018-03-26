@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-title :text="{content:'推荐歌单'}"></v-title>
+    <v-title :text="{content:'推荐MV'}"></v-title>
     <div class="cover">
       <div class="item" v-for="(item, index) in itemDetail">
         <img :src="item.picUrl" alt="">
@@ -9,15 +9,16 @@
           {{item.playCount > 100000 ? parseInt(item.playCount/10000) + '万': parseInt(item.playCount)}}
         </span>
         <p>{{item.name}}</p>
+        <p>{{item.artistName}}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import global from '../../global.js'
+  import global from '../../../global.js'
   import title from './title.vue'
-  export default {
+  export default{
     data(){
       return {
         itemDetail: []
@@ -27,9 +28,9 @@
       "v-title": title
     },
     created() {
-      this.$axios.get(global.serverAddress + '/personalized')
+      this.$axios.get(global.serverAddress + '/personalized/mv')
         .then((res) => {
-          this.itemDetail = res.data.result.splice(0, 6)
+          this.itemDetail = res.data.result;
         })
         .catch(function (err) {
           console.log(err)
@@ -38,13 +39,10 @@
   }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus">
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  @import '../../../common/base.styl'
   .item
-    width 33.3%
-    padding 0 2px 2px 0
-    box-sizing border-box
-    position relative
-    display inline-block
+    musicList(50%)
     img
       width 100%
     span
@@ -53,13 +51,9 @@
       right 8px
       font-size 12px
       color #ffffff
+    p:last-child
+      color #999
+      font-size 11px
     p
-      height 34px
-      font-size 12px
-      line-height 17px
-      margin 5px 10px
-      display -webkit-box
-      -webkit-box-orient vertical
-      -webkit-line-clamp: 2
-      overflow hidden
+      overFlower(2, 17px)
 </style>

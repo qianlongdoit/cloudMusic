@@ -36,7 +36,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import '../../common/theme.styl'
+  @import '../../../common/theme.styl'
   .circle
     text-align center
     padding 20px 0 12px

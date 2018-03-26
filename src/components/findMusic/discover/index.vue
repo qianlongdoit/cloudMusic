@@ -8,6 +8,9 @@
       <v-option :recInfo="{icon:'icon-rank-list',text:'排行榜',link:'/musicRank'}"></v-option>
     </div>
     <v-recommendList></v-recommendList>
+    <v-monopolyList></v-monopolyList>
+    <v-newSong></v-newSong>
+    <v-mv></v-mv>
   </div>
 </template>
 
@@ -15,11 +18,17 @@
   import slide from './slide.vue'
   import recommendOption from './recommendOption.vue'
   import recommendList from './recommendList.vue'
+  import monopolyList from './monopolyList.vue'
+  import newSong from  './newSong.vue'
+  import mv from './mv.vue'
   export default {
     components: {
       "v-slide": slide,
       "v-option": recommendOption,
-      "v-recommendList": recommendList
+      "v-recommendList": recommendList,
+      "v-monopolyList": monopolyList,
+      "v-newSong": newSong,
+      "v-mv": mv
     }
   }
 </script>

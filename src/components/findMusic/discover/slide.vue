@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import autoSlide from "../../assets/js/slide.js"
+  import autoSlide from "../../../assets/js/slide.js"
   export default {
     data(){
       return {
@@ -50,7 +50,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../common/theme.styl"
+  @import "../../../common/theme.styl"
   ::before, ::after
     padding 0
     margin 0

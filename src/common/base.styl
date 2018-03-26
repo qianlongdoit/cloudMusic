@@ -1,3 +1,6 @@
+//  点击时的颜色
+$link_acitve = #d5d5d5
+
 border_1px($color)
   position relative
   &:after
@@ -7,5 +10,20 @@ border_1px($color)
     width 100%
     border-bottom 1px solid $color
     content ' '
-//  点击时的颜色
-$link_acitve = #d5d5d5
+
+musicList($with)
+  width $with
+  padding 0 2px 2px 0
+  box-sizing border-box
+  position relative
+  display inline-block
+
+overFlower($line, $height)
+  height $height
+  font-size 12px
+  line-height 17px
+  margin 5px 10px
+  display -webkit-box
+  -webkit-box-orient vertical
+  -webkit-line-clamp: $line
+  overflow hidden
