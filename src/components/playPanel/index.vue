@@ -4,20 +4,50 @@
 
     <div class="summary">
       <div class="song-name-wrapper">
-        <p class="song-name">{{'【剑三·咩炮】野火（剧情版）（柴田淳Cover ）'}}</p>
+        <p class="song-name" ref="songName" :class="[playing?'text-flow':'']">{{'【剑三·咩炮】野火（剧情版）（柴田淳Cover ）'}}</p>
       </div>
       <span class="singer">{{'以冬'}}</span>
     </div>
 
     <div class="control">
-      <i class="icon icon-playdetail"></i>
+      <i class="icon" :class="[playing?'icon-pause-detail':'icon-playdetail']" @click="togglePlay"></i>
       <i class="icon icon-list-music"></i>
     </div>
+    <audio ref="audio">
+      <source src="../../../static/music/逍遥叹.mp3"/>
+    </audio>
+
+    <v-playList :info="{show:false}"></v-playList>
   </section>
 </template>
 
 <script>
+  import store from '../../store'
+  import playList from './playList.vue'
+  export default{
+    data(){
+      return {
 
+      }
+    },
+    computed: {
+      playing(){
+        return store.state.playPanel.playing;
+      }
+    },
+    methods: {
+      togglePlay(){
+        store.commit('togglePlay');
+      }
+    },
+    mounted(){
+      //  初始化播放器
+      store.commit('init', this.$refs.audio)
+    },
+    components:{
+      "v-playList": playList
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -29,6 +59,13 @@
       transform: translate3d(-300px, 0, 0)
     }
   }
+
+  .icon-pause-detail
+    border-radius 50%
+    color red
+
+  .text-flow
+    animation scroll 10s linear 2s infinite
 
   .play-panel
     position fixed
@@ -59,7 +96,6 @@
           top 0
           left 0
           font-size 14px
-          animation scroll 10s linear 2s infinite
       .singer
         font-size 12px
         color #aaa

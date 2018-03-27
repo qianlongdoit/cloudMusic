@@ -51,13 +51,5 @@
       font-size 12px
       color #ffffff
     p
-      overFlower(2, 34px)
-      height 34px
-      font-size 12px
-      line-height 17px
-      margin 5px 10px
-      display -webkit-box
-      -webkit-box-orient vertical
-      -webkit-line-clamp: 2
-      overflow hidden
+      overFlow(2, 34px)
 </style>

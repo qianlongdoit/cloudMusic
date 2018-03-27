@@ -1,6 +1,6 @@
 <template>
   <div class="listBand">
-    <i class="icon icon-down" :class="[notHidden?'icon-down':'icon-right']"></i>
+    <i class="icon" :class="[notHidden?'icon-down':'icon-right']"></i>
     <span class="title">
       {{title}}
       <b>({{total}})</b>

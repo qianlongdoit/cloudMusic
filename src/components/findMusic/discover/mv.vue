@@ -55,5 +55,5 @@
       color #999
       font-size 11px
     p
-      overFlower(2, 17px)
+      overFlow(2, 17px)
 </style>
