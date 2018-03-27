@@ -1,11 +1,11 @@
 <template>
   <div>
     <transition name="mask">
-      <div class="mask"></div>
+      <div class="mask" v-show="showList" @click="change"></div>
     </transition>
 
     <transition name="fade">
-      <div class="list-sheet" v-show="fade">
+      <div class="list-sheet" v-show="showList">
         <div class="controller">
           <p class="model">
             <i class="ico icon-music-shunxu" @click="change"></i>
@@ -17,16 +17,17 @@
 </template>
 
 <script>
+  import store from '../../store'
   export default {
     props: {},
-    data(){
-      return {
-        fade: true
+    computed: {
+      showList(){
+        return store.state.playPanel.showSongList
       }
     },
     methods: {
       change(){
-        this.fade = false
+        store.commit('hiddenSongList')
       }
     }
   }
@@ -42,6 +43,10 @@
     background rgba(0, 0, 0, 0.5)
     opacity 1
     z-index 20
+    &.mask-enter-to, &.mask-leave-to
+      transition transform 0.3s
+    &.mask-enter, &.mask-leave-to
+      transform opacity 0
 
   .list-sheet
     position absolute
@@ -55,7 +60,7 @@
     &.fade-enter-to, &.fade-leave-to
       transition transform 0.4s
     &.fade-enter, &.fade-leave-to
-      transform translateY(50px)
+      transform translateY(315px)
     .controller
       background #ffffff
       height 50px

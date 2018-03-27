@@ -11,13 +11,13 @@
 
     <div class="control">
       <i class="icon" :class="[playing?'icon-pause-detail':'icon-playdetail']" @click="togglePlay"></i>
-      <i class="icon icon-list-music"></i>
+      <i class="icon icon-list-music" @click="showList"></i>
     </div>
     <audio ref="audio">
       <source src="../../../static/music/逍遥叹.mp3"/>
     </audio>
 
-    <v-playList :info="{show:false}"></v-playList>
+    <v-playList :info="{}"></v-playList>
   </section>
 </template>
 
@@ -38,6 +38,9 @@
     methods: {
       togglePlay(){
         store.commit('togglePlay');
+      },
+      showList(){
+        store.state.playPanel.showSongList = true;
       }
     },
     mounted(){
@@ -61,7 +64,6 @@
   }
 
   .icon-pause-detail
-    border-radius 50%
     color red
 
   .text-flow
