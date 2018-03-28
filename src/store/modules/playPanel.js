@@ -5,7 +5,7 @@ const state = {
   audioElement: '',  //audio标签
   song: '', //歌曲名
   artist: '', //演唱者
-  playModel: 1, //播放模式  1、列表循环 2、随机播放 3、单曲循环
+  playModel: 0, //播放模式  0、列表循环 1、随机播放 2、单曲循环
   listSheet: [],  //播放列表
   showSongList: false,  //播放列表是否显示
   musicDuration: 0, //歌曲时长
@@ -32,6 +32,9 @@ const mutations = {
   },
   hiddenSongList(state){
     state.showSongList = false;
+  },
+  switchModel(state){
+    state.playModel = (state.playModel + 1) % 3;
   }
 }
 
