@@ -19,7 +19,7 @@
       listInfo: {
         title:{
           type: String,
-          default: '创建的歌单'
+          default: ''
         },
         total: {
           type: Number,

@@ -43,7 +43,6 @@
   .main
     position fixed
     bottom 50px
-
   .header
     height 60px
     position fixed

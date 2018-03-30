@@ -55,9 +55,7 @@
       margin 0 15px
       color $themeRed
     .menuWrapper
-      display inline-block
       margin-left 60px
-      width 100%
     .title
       font-size 16px
     .count

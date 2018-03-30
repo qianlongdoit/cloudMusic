@@ -5,11 +5,14 @@ const state = {
   audioElement: '',  //audio标签
   song: '', //歌曲名
   artist: '', //演唱者
+  listDetail: {}, //歌单信息
   playModel: 0, //播放模式  0、列表循环 1、随机播放 2、单曲循环
   listSheet: [],  //播放列表
+  // listId: '557821741',
   showSongList: false,  //播放列表是否显示
-  musicDuration: 0, //歌曲时长
-  playingTime: 0, //当前播放时间
+  showMusicList: false, //歌单列表是否显示
+  // musicDuration: 0, //歌曲时长
+  // playingTime: 0, //当前播放时间
   playing: false, //是否正在播放
 
 }
@@ -35,10 +38,19 @@ const mutations = {
   },
   switchModel(state){
     state.playModel = (state.playModel + 1) % 3;
+  },
+
+  toggleMusicList(state){
+    state.showMusicList = !state.showMusicList;
   }
+}
+
+const actions = {
+
 }
 
 export default {
   state,
-  mutations
+  mutations,
+  actions
 }

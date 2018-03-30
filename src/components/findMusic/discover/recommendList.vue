@@ -2,7 +2,7 @@
   <div>
     <v-title :text="{content:'推荐歌单'}"></v-title>
     <div class="cover">
-      <div class="item" v-for="(item, index) in itemDetail">
+      <div class="item" v-for="(item, index) in itemDetail" @click="showMusicList(item.id)">
         <img :src="item.picUrl" alt="">
         <span>
           <i class="icon icon-erji"></i>
@@ -16,6 +16,7 @@
 
 <script>
   import global from '../../../global.js'
+  import store from '../../../store'
   import title from './title.vue'
   export default {
     data(){
@@ -25,6 +26,18 @@
     },
     components: {
       "v-title": title
+    },
+    methods: {
+      showMusicList(id){
+        this.$axios.get(global.serverAddress + '/playlist/detail?id=' + id)
+          .then((res) => {
+            store.state.playPanel.listDetail = res.data.playlist;
+            store.commit('toggleMusicList')
+          })
+          .catch(function (err) {
+            console.log(err)
+          })
+      }
     },
     created() {
       this.$axios.get(global.serverAddress + '/personalized')

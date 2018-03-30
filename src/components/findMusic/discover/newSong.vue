@@ -2,7 +2,7 @@
   <div>
     <v-title :text="{content: '最新音乐'}"></v-title>
     <div class="cover">
-      <div class="item" v-for="(item, index) in itemDetail">
+      <div class="item" v-for="(item, index) in itemDetail" :data="item.id">
         <img :src="item.song.album.blurPicUrl" alt="">
         <p>{{item.name}}</p>
         <p>{{item.song.artists[0].name}}</p>

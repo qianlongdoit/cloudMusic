@@ -18,18 +18,15 @@
     </audio>
 
     <v-playList :info="{}"></v-playList>
+    <v-musicList></v-musicList>
   </section>
 </template>
 
 <script>
   import store from '../../store'
   import playList from './playList.vue'
+  import musicList from './musicList.vue'
   export default{
-    data(){
-      return {
-
-      }
-    },
     computed: {
       playing(){
         return store.state.playPanel.playing;
@@ -48,7 +45,8 @@
       store.commit('init', this.$refs.audio)
     },
     components:{
-      "v-playList": playList
+      "v-playList": playList,
+      "v-musicList": musicList
     }
   }
 </script>
@@ -79,6 +77,7 @@
     width 100%
     box-sizing border-box
     padding 5px
+    z-index 24
     .song-cover
       width 40px
       height 40px
