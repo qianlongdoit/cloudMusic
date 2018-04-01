@@ -58,7 +58,7 @@
         <div class="sheet">
           <div class="sheet-wrapper">
             <div class="play">
-              <span><i class="icon icon-play"></i></span>
+              <span><i class="icon icon-playdetail"></i></span>
               <span>播放全部</span>
               <span>(共{{listDetail.trackCount}}首)</span>
             </div>
@@ -288,9 +288,15 @@
         width 100%
         .sheet-wrapper
           .play
+            display inline-block
             line-height 20px
+            span:first-child
+              color #000
+            span:last-child
+              font-size 14px
           .right-setting
             font-size 14px
+            float right
 
         .sheet-item
           color #000
