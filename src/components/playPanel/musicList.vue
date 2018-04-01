@@ -8,16 +8,17 @@
           <i class="icon icon-search"></i>
           <i class="icon icon-list-circle"></i>
         </div>
+        <div class="background" ref="header"></div>
       </div>
 
-      <div class="middle">
-        <div class="music-cover-wrapper">
+      <div class="middle" @scroll="scrollHandle" ref="middle">
+        <div class="music-cover-wrapper" ref="wrapper">
           <div class="music-cover">
             <div class="cover">
               <img :src="listDetail.coverImgUrl" alt="">
               <p>
                 <i class="icon icon-erji"></i>
-                <span>{{listDetail.playCount > 100000 ? parseInt(listDetail.playCount/10000) + '万': parseInt(listDetail.playCount)}}</span>
+                <span>{{listDetail.playCount > 100000 ? parseInt(listDetail.playCount / 10000) + '万' : parseInt(listDetail.playCount)}}</span>
               </p>
               <span class="i">i</span>
             </div>
@@ -26,10 +27,8 @@
               <p>{{listDetail.name}}</p>
               <div class="creator">
                 <img :src="creator.avatarUrl" alt="">
-                <span>
-              {{creator.nickname}}
-              <i class="icon icon-right"></i>
-            </span>
+                <span>{{creator.nickname}}</span>
+                <i class="icon icon-right"></i>
               </div>
             </div>
           </div>
@@ -37,7 +36,9 @@
           <div class="action">
             <div>
               <i class="icon icon-add"></i>
-              <p>{{listDetail.subscribedCount}}</p>
+              <p>{{listDetail.subscribedCount > 100000
+                ? (parseInt(listDetail.subscribedCount / 1000)) / 10 + '万'
+                : listDetail.subscribedCount}}</p>
             </div>
             <div>
               <i class="icon icon-msg"></i>
@@ -54,33 +55,67 @@
           </div>
         </div>
 
-        <div class="sheet-item">
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
-          <p>倔强-五月天</p>
+        <div class="sheet">
+          <div class="sheet-wrapper">
+            <div class="play">
+              <span><i class="icon icon-play"></i></span>
+              <span>播放全部</span>
+              <span>(共{{listDetail.trackCount}}首)</span>
+            </div>
+
+            <div class="right-setting">
+              <i class="icon icon-list-music"></i>
+              <span>多选</span>
+            </div>
+          </div>
+
+          <div class="sheet-item">
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+            <p>倔强-五月天</p>
+
+          </div>
         </div>
       </div>
     </div>
@@ -105,6 +140,25 @@
     methods: {
       hideMusicList(){
         store.commit('toggleMusicList')
+      },
+      scrollHandle(){
+        let opacity = this.$refs.middle.scrollTop / (this.$refs.wrapper.offsetHeight - this.$refs.header.offsetHeight)
+        opacity > 1
+          ? (this.$refs.header.style.opacity = 1, this.$refs.header.style.filter = 'alpha(opacity:100)')
+          : (this.$refs.header.style.opacity = opacity, this.$refs.header.style.filter = `alpha(opacity:${100})`);
+      }
+    },
+    watch: {
+      listDetail(){
+        this.$nextTick(() => {
+          this.$refs.wrapper.style.backgroundImage = `url(${this.listDetail.coverImgUrl})`
+          this.$refs.wrapper.style.backgroundSize = `5800%`
+          this.$refs.wrapper.style.backgroundPosition = `center center`
+          this.$refs.header.style.backgroundImage = `url(${this.listDetail.coverImgUrl})`
+          this.$refs.header.style.backgroundSize = `5800%`
+          this.$refs.header.style.backgroundPosition = `center top`
+          this.$refs.header.style.opacity = 0
+        })
       }
     }
   }
@@ -125,7 +179,8 @@
       transform translateY(100%)
       opacity 0
     .header
-      background #333
+      z-index 1
+      position relative
       .icon, span
         color #fff
         display inline-block
@@ -140,17 +195,24 @@
       .search
         display inline-block
         float right
+      .background
+        position absolute
+        top 0
+        left 0
+        height 100%
+        width 100%
+        z-index -1
 
     .middle
       position absolute
-      top 60px
+      top 0
       width 100%
-      height calc(100% - 60px)
+      height 100%
       overflow auto
-      background #666
+      background #f9f9f9
       .music-cover-wrapper
-        padding 40px 25px 20px
-        height 240px
+        padding 90px 25px 10px
+        height 220px
       .music-cover
         display flex
         .cover
@@ -172,7 +234,7 @@
             width 16px
             height 16px
             line-height 16px
-            background rgba(0,0,0,0.6)
+            background rgba(0, 0, 0, 0.6)
             text-align center
             color #fff
             position absolute
@@ -189,19 +251,25 @@
             margin-bottom 30px
           .creator
             height 30px
-            vertical-align middle
+            vertical-align baseline
             img
               width 30px
               display inline-block
               border-radius 50%
-              vertical-align middle
             span
               display inline-block
               height 100%
+              max-width 95px
+              overflow hidden
+              text-overflow ellipsis
+              white-space nowrap
               line-height 30px
               padding 0 5px
               font-size 12px
               color: #e6e6e6
+            .icon
+              line-height 30px
+              vertical-align top
 
       .action
         display flex
@@ -216,6 +284,14 @@
           font-size 12px
           color #e6e6e6
           line-height 18px
-      .sheet-item
+      .sheet
         width 100%
+        .sheet-wrapper
+          .play
+            line-height 20px
+          .right-setting
+            font-size 14px
+
+        .sheet-item
+          color #000
 </style>

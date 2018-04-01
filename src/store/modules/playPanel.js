@@ -8,7 +8,6 @@ const state = {
   listDetail: {}, //歌单信息
   playModel: 0, //播放模式  0、列表循环 1、随机播放 2、单曲循环
   listSheet: [],  //播放列表
-  // listId: '557821741',
   showSongList: false,  //播放列表是否显示
   showMusicList: false, //歌单列表是否显示
   // musicDuration: 0, //歌曲时长
