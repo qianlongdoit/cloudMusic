@@ -2,7 +2,7 @@
   <section class="play-panel">
     <img class="song-cover" src="../../../static/musiclist/10.jpg">
 
-    <div class="summary">
+    <div class="summary" @click="showCurrentMusic">
       <div class="song-name-wrapper">
         <p class="song-name" ref="songName" :class="[playing?'text-flow':'']">{{'【剑三·咩炮】野火（剧情版）（柴田淳Cover ）'}}</p>
       </div>
@@ -19,6 +19,7 @@
 
     <v-playList :info="{}"></v-playList>
     <v-musicList></v-musicList>
+    <v-currentMusic></v-currentMusic>
   </section>
 </template>
 
@@ -26,6 +27,7 @@
   import store from '../../store'
   import playList from './playList.vue'
   import musicList from './musicList.vue'
+  import currentMusic from './currentMusic.vue'
   export default{
     computed: {
       playing(){
@@ -38,6 +40,9 @@
       },
       showList(){
         store.state.playPanel.showSongList = true;
+      },
+      showCurrentMusic(){
+        store.commit('toggleCurrentMusic')
       }
     },
     mounted(){
@@ -46,7 +51,8 @@
     },
     components:{
       "v-playList": playList,
-      "v-musicList": musicList
+      "v-musicList": musicList,
+      "v-currentMusic": currentMusic
     }
   }
 </script>

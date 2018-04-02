@@ -10,6 +10,7 @@ const state = {
   listSheet: [],  //播放列表
   showSongList: false,  //播放列表是否显示
   showMusicList: false, //歌单列表是否显示
+  showCurrent: false, //当前播放页面是否显示
   // musicDuration: 0, //歌曲时长
   // playingTime: 0, //当前播放时间
   playing: false, //是否正在播放
@@ -41,6 +42,9 @@ const mutations = {
 
   toggleMusicList(state){
     state.showMusicList = !state.showMusicList;
+  },
+  toggleCurrentMusic(state){
+    state.showCurrent = !state.showCurrent;
   }
 }
 

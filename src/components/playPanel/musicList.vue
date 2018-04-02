@@ -152,6 +152,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/base.styl"
   .music-sheet
     position fixed
     top 0
