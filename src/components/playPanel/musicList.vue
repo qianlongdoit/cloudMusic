@@ -58,7 +58,7 @@
         <div class="sheet">
           <div class="sheet-wrapper">
             <div class="play">
-              <span><i class="icon icon-playdetail"></i></span>
+              <i class="icon icon-playdetail"></i>
               <span>播放全部</span>
               <span>(共{{listDetail.trackCount}}首)</span>
             </div>
@@ -69,53 +69,27 @@
             </div>
           </div>
 
-          <div class="sheet-item">
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
-            <p>倔强-五月天</p>
+          <ul class="sheet-item" v-for="(item, index) in tracks">
+            <li class="item">
+              <div class="index">
+                <span>{{index + 1}}</span>
+              </div>
 
-          </div>
+              <div class="item-body">
+                <div>
+                  <p class="item-title">
+                    {{item.name}}
+                    <span v-if="item.alia.length">({{item.alia[0]}})</span></p>
+                  <p class="artist">
+                    <img src="../../../static/img/sq.png" alt="">
+                    <span>{{item.ar | artist}} - {{item.al.name}}</span>
+                  </p>
+                </div>
+                <i class="icon icon-list-circle"></i>
+              </div>
+            </li>
+
+          </ul>
         </div>
       </div>
     </div>
@@ -135,6 +109,19 @@
       },
       creator(){
         return store.state.playPanel.listDetail.creator;
+      },
+      tracks(){
+        return store.state.playPanel.listDetail.tracks;
+      }
+    },
+    filters: {
+      artist(value){
+        return value.length === 1
+          ? value[0].name
+          : value.reduce(function (acc, cur) {
+            return acc + cur.name + '/'
+          }, "");
+
       }
     },
     methods: {
@@ -268,6 +255,7 @@
               font-size 12px
               color: #e6e6e6
             .icon
+              display inline-block
               line-height 30px
               vertical-align top
 
@@ -287,17 +275,82 @@
       .sheet
         width 100%
         .sheet-wrapper
-          .play
+          height 40px
+          padding-left 10px
+          border-bottom 1px solid #ededed
+          box-sizing border-box
+          .play, span
             display inline-block
-            line-height 20px
-            span:first-child
-              color #000
-            span:last-child
-              font-size 14px
+          span
+            line-height 40px
+            vertical-align bottom
+          .icon
+            color #000
+            font-size 22px
+            line-height 40px
+            padding 0 8px
+          .play span:last-child
+            font-size 12px
+            color #aaa
           .right-setting
-            font-size 14px
+            padding-right 10px
+            font-size 12px
             float right
+            vertical-align baseline
+            .icon
+              display inline-block
+              font-size 16px
+              line-height 40px
+              padding 0 0
 
         .sheet-item
           color #000
+        .item
+          display flex
+          justify-content flex-start
+          .index
+            text-align center
+            span
+              color #666
+              width 50px
+              line-height 60px
+              display inline-block
+
+          .item-body
+            border-bottom 1px solid #ededed
+            width calc(100% - 50px)
+            div
+              display inline-block
+              width calc(100% - 60px)
+            p
+              display inline-block
+            .item-title, .artist, span
+              width 100%
+              overflow hidden
+              text-overflow ellipsis
+              white-space nowrap
+            .item-title, .item-title span
+              font-size 16px
+              line-height 35px
+              vertical-align middle
+              display inline-block
+            .item-title span
+              color #666
+            .artist
+              vertical-align baseline
+              font-size 12px
+              line-height 18px
+              img
+                display inline-block
+                width 14px
+                padding 2px 3px
+              span
+                display inline-block
+                width calc(100% - 20px)
+            .icon
+              float right
+              line-height 60px
+              margin-right 10px
+              font-size 18px
+              color #666
 </style>
