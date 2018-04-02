@@ -69,8 +69,8 @@
             </div>
           </div>
 
-          <ul class="sheet-item" v-for="(item, index) in tracks">
-            <li class="item">
+          <ul class="sheet-item">
+            <li class="item" v-for="(item, index) in tracks" @click="play(index)">
               <div class="index">
                 <span>{{index + 1}}</span>
               </div>
@@ -133,6 +133,9 @@
         opacity > 1
           ? (this.$refs.header.style.opacity = 1, this.$refs.header.style.filter = 'alpha(opacity:100)')
           : (this.$refs.header.style.opacity = opacity, this.$refs.header.style.filter = `alpha(opacity:${100})`);
+      },
+      play(i){
+        store.commit('setCurrentCD', i)
       }
     },
     watch: {

@@ -32,6 +32,9 @@
     computed: {
       playing(){
         return store.state.playPanel.playing;
+      },
+      CD(){
+        return store.state.playPanel.currentCD;
       }
     },
     methods: {
