@@ -19,9 +19,7 @@ const state = {
     ar: [{id: '',name: '胡歌', tns: [], alias: []}],
     alia: []
   },
-  sourceUrl : [
-    {url: '../../../static/music/逍遥叹.mp3'}
-  ],
+  current: 0, //当前播放的索引
   // musicDuration: 0, //歌曲时长
   // playingTime: 0, //当前播放时间
   playing: false, //是否正在播放
@@ -60,6 +58,7 @@ const mutations = {
   },
   //  设置当前播发的CD
   setCurrentCD(state, index){
+    state.current = index;
     state.currentCD = state.listDetail.tracks[index];
   },
   //  设置当前播放CD的url

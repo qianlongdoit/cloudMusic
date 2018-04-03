@@ -18,7 +18,11 @@
               <img :src="listDetail.coverImgUrl" alt="">
               <p>
                 <i class="icon icon-erji"></i>
-                <span>{{listDetail.playCount > 100000 ? parseInt(listDetail.playCount / 10000) + '万' : parseInt(listDetail.playCount)}}</span>
+                <span>
+                  {{listDetail.playCount > 100000
+                  ? parseInt(listDetail.playCount / 10000) + '万'
+                  : parseInt(listDetail.playCount)}}
+                </span>
               </p>
               <span class="i">i</span>
             </div>
@@ -72,7 +76,8 @@
           <ul class="sheet-item">
             <li class="item" v-for="(item, index) in tracks" @click="play(index)">
               <div class="index">
-                <span>{{index + 1}}</span>
+                <span v-if="now !== index">{{index + 1}}</span>
+                <i v-if="now === index" class="icon icon-volume-medium" style="color: red"></i>
               </div>
 
               <div class="item-body">
@@ -112,6 +117,9 @@
       },
       tracks(){
         return store.state.playPanel.listDetail.tracks;
+      },
+      now(){
+        return store.state.playPanel.current
       }
     },
     filters: {
@@ -140,7 +148,6 @@
         this.$axios.get(global.serverAddress + '/music/url?id=' + store.state.playPanel.currentCD.id)
           .then((res) => {
             store.dispatch('set_sourceUrl', res.data.data[0])
-//            store.commit('play')
           })
           .catch((err) => {
             console.log(err)
@@ -323,7 +330,7 @@
           justify-content flex-start
           .index
             text-align center
-            span
+            span, i
               color #666
               width 50px
               line-height 60px

@@ -4,8 +4,8 @@
 
     <div class="summary" @click="showCurrentMusic">
       <div class="song-name-wrapper">
-        <p class="song-name" ref="songName" :class="[playing?'text-flow':'']">
-          {{CD.name}}{{CD.alia.length ? '(' + CD.alia[0] + ')': ''}}
+        <p class="song-name" ref="songName">
+          {{CD.name}}{{CD.alia.length ? '(' + CD.alia[0] + ')' : ''}}
         </p>
       </div>
       <span class="singer">{{CD.ar | artist}}</span>
@@ -50,7 +50,9 @@
     },
     methods: {
       test(){
-        console.log(store.state.playPanel.sourceUrl)
+        console.log(this.$refs.songName.offsetWidth > 220)
+        console.log(this.$refs.songName.offsetWidth)
+        console.log(this.playing)
       },
       togglePlay(){
         store.commit('togglePlay');
@@ -62,11 +64,21 @@
         store.commit('toggleCurrentMusic')
       }
     },
+    watch: {
+      CD(){
+        var songName = this.$refs.songName;
+        setTimeout(() => {
+          this.playing && songName.offsetWidth > 220
+            ? songName.classList.add('text-flow')
+            : songName.classList.remove('text-flow')
+        }, 1000)
+      }
+    },
     mounted(){
       //  初始化播放器
       store.commit('init', this.$refs.audio)
     },
-    components:{
+    components: {
       "v-playList": playList,
       "v-musicList": musicList,
       "v-currentMusic": currentMusic
