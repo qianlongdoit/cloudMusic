@@ -1,5 +1,5 @@
 <template>
-  <section class="play-panel">
+  <section class="play-panel" v-if="">
     <img class="song-cover" :src="CD.al.picUrl" @click="test">
 
     <div class="summary" @click="showCurrentMusic">
@@ -35,17 +35,6 @@
       },
       CD(){
         return store.state.playPanel.currentCD;
-      }
-    },
-    filters: {
-      artist(value){
-        return value.length === 1
-          ? value[0].name
-          : value.reduce(function (acc, cur, index) {
-            return index + 1 === value.length
-              ? acc + cur.name
-              : acc + cur.name + '/'
-          }, "");
       }
     },
     methods: {

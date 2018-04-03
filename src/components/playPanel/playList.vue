@@ -9,7 +9,7 @@
         <div class="controller">
           <p class="model">
             <i class="icon" :class="playModelClass[playSetting.playModel]" @click="switchModel"></i>
-            <span>{{playModelName[playSetting.playModel]}} ({{'100'}})</span>
+            <span>{{playModelName[playSetting.playModel]}} ({{tracks.length}})</span>
           </p>
 
           <p class="action">
@@ -19,12 +19,12 @@
           </p>
         </div>
 
-        <div class="list-content">
-          <div class="list-item">
-            <div class="item-info">
-              <i class="icon icon-volume-medium"></i>
-              <span>{{'Rude Boy'}}</span>
-              <span class="artist"> - {{'Aston'}}</span>
+        <div class="list-content" ref="listContent">
+          <div class="list-item" v-for="(item, index) in tracks" @click="play(index)">
+            <div class="item-info" :class="[index === now?'red':'']">
+              <i v-if="index === now" class="icon icon-volume-medium"></i>
+              <span>{{item.name}}</span>
+              <span class="artist"> - {{item.ar | artist}}</span>
             </div>
 
             <i class="icon icon-close"></i>
@@ -52,7 +52,12 @@
           playModel: store.state.playPanel.playModel
         }
       },
-
+      tracks(){
+        return store.state.playPanel.listDetail.tracks;
+      },
+      now(){
+        return store.state.playPanel.current
+      }
     },
     methods: {
       fadeInOut(){
@@ -60,6 +65,19 @@
       },
       switchModel(){
         store.commit('switchModel')
+      },
+      play(i){
+        store.dispatch('set_sourceUrl', i);
+      }
+    },
+    watch: {
+      playSetting(){
+        console.log(this.now)
+        if (this.playSetting.showList){
+//          this.$refs.listContent.scrollTop = 150
+//          console.log(50 * this.now)
+//          console.log(this.$refs.listContent.scrollTop)
+        }
       }
     }
   }
@@ -145,7 +163,7 @@
         .icon, span
           line-height 49px
         span
-          font-size 16px
+          font-size 14px
         .artist
           font-size 12px
       .icon-close

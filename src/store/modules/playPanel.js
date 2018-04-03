@@ -1,11 +1,16 @@
 /**
  * Created by Administrator on 2018/1/11.
  */
+import axios from 'axios'
+import global from '../../global'
+
 const state = {
   audioElement: '',  //audio标签
   // song: '', //歌曲名
   // artist: '', //演唱者
-  listDetail: {}, //歌单信息
+  listDetail: {
+    tracks:[]
+  }, //歌单信息
   playModel: 0, //播放模式  0、列表循环 1、随机播放 2、单曲循环
   listSheet: [],  //播放列表
   showSongList: false,  //播放列表是否显示
@@ -16,7 +21,7 @@ const state = {
     al: {
       picUrl: '../../../static/images/userlogo.jpg'
     },
-    ar: [{id: '',name: '胡歌', tns: [], alias: []}],
+    ar: [{id: '', name: '胡歌', tns: [], alias: []}],
     alia: []
   },
   current: 0, //当前播放的索引
@@ -68,9 +73,17 @@ const mutations = {
 }
 
 const actions = {
-  set_sourceUrl({commit}, obj){
-    commit('setSourceUrl', obj)
-    commit('play')
+  set_sourceUrl({commit}, i){
+    commit('setCurrentCD', i);
+    axios.get(global.serverAddress + '/music/url?id=' + state.currentCD.id)
+      .then((res) => {
+        commit('setSourceUrl', res.data.data[0]);
+        commit('play');
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+
   }
 }
 
