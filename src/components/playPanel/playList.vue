@@ -27,7 +27,7 @@
               <span class="artist"> - {{item.ar | artist}}</span>
             </div>
 
-            <i class="icon icon-close"></i>
+            <i class="icon icon-close" @click="removeOneSong($event, index)"></i>
           </div>
         </div>
       </div>
@@ -68,15 +68,24 @@
       },
       play(i){
         store.dispatch('set_sourceUrl', i);
+      },
+      removeOneSong($event, i){
+        $event.stopPropagation();
+        this.$refs.listContent.removeChild($event.path[1])
+//        console.log(this.now)
+//        store.commit('removeOne', i);
+//        console.log(this.now)
+//        store.dispatch('set_sourceUrl', i);
       }
     },
     watch: {
       playSetting(){
-        console.log(this.now)
+        var i = this.now;
         if (this.playSetting.showList){
-//          this.$refs.listContent.scrollTop = 150
-//          console.log(50 * this.now)
-//          console.log(this.$refs.listContent.scrollTop)
+          //  如果动画效果没完成，则获取的scrollTop均为0
+          setTimeout(()=>{
+            this.$refs.listContent.scrollTop = (i-3)*50
+          }, 300)
         }
       }
     }

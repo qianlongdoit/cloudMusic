@@ -69,6 +69,15 @@ const mutations = {
   //  设置当前播放CD的url
   setSourceUrl(state, obj){
     state.audioElement.setAttribute('src', obj.url);
+  },
+  //  歌单中移除指定的CD
+  removeOne(state, i){
+    // state.listSheet.splice(i, 1);
+    // if (state.current > i){
+    //   state.current--
+    // }else if (state.current === i){
+    //   state.audioElement.pause();
+    // }
   }
 }
 
