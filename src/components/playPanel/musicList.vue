@@ -118,10 +118,11 @@
       artist(value){
         return value.length === 1
           ? value[0].name
-          : value.reduce(function (acc, cur) {
-            return acc + cur.name + '/'
+          : value.reduce(function (acc, cur, index) {
+            return index + 1 === value.length
+              ? acc + cur.name
+              : acc + cur.name + '/'
           }, "");
-
       }
     },
     methods: {
@@ -135,7 +136,15 @@
           : (this.$refs.header.style.opacity = opacity, this.$refs.header.style.filter = `alpha(opacity:${100})`);
       },
       play(i){
-        store.commit('setCurrentCD', i)
+        store.commit('setCurrentCD', i);
+        this.$axios.get(global.serverAddress + '/music/url?id=' + store.state.playPanel.currentCD.id)
+          .then((res) => {
+            store.dispatch('set_sourceUrl', res.data.data[0])
+//            store.commit('play')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     },
     watch: {

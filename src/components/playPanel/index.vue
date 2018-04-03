@@ -1,21 +1,21 @@
 <template>
   <section class="play-panel">
-    <img class="song-cover" src="../../../static/musiclist/10.jpg">
+    <img class="song-cover" :src="CD.al.picUrl" @click="test">
 
     <div class="summary" @click="showCurrentMusic">
       <div class="song-name-wrapper">
-        <p class="song-name" ref="songName" :class="[playing?'text-flow':'']">{{'【剑三·咩炮】野火（剧情版）（柴田淳Cover ）'}}</p>
+        <p class="song-name" ref="songName" :class="[playing?'text-flow':'']">
+          {{CD.name}}{{CD.alia.length ? '(' + CD.alia[0] + ')': ''}}
+        </p>
       </div>
-      <span class="singer">{{'以冬'}}</span>
+      <span class="singer">{{CD.ar | artist}}</span>
     </div>
 
     <div class="control">
       <i class="icon" :class="[playing?'icon-pause-detail':'icon-playdetail']" @click="togglePlay"></i>
       <i class="icon icon-list-music" @click="showList"></i>
     </div>
-    <audio ref="audio">
-      <source src="../../../static/music/逍遥叹.mp3"/>
-    </audio>
+    <audio ref="audio" src="../../../static/music/逍遥叹.mp3"></audio>
 
     <v-playList :info="{}"></v-playList>
     <v-musicList></v-musicList>
@@ -37,7 +37,21 @@
         return store.state.playPanel.currentCD;
       }
     },
+    filters: {
+      artist(value){
+        return value.length === 1
+          ? value[0].name
+          : value.reduce(function (acc, cur, index) {
+            return index + 1 === value.length
+              ? acc + cur.name
+              : acc + cur.name + '/'
+          }, "");
+      }
+    },
     methods: {
+      test(){
+        console.log(store.state.playPanel.sourceUrl)
+      },
       togglePlay(){
         store.commit('togglePlay');
       },

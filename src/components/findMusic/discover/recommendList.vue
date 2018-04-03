@@ -6,7 +6,7 @@
         <img :src="item.picUrl" alt="">
         <span>
           <i class="icon icon-erji"></i>
-          {{item.playCount > 100000 ? parseInt(item.playCount/10000) + '万': parseInt(item.playCount)}}
+          {{item.playCount > 100000 ? parseInt(item.playCount / 10000) + '万' : parseInt(item.playCount)}}
         </span>
         <p>{{item.name}}</p>
       </div>
@@ -34,7 +34,7 @@
             store.state.playPanel.listDetail = res.data.playlist;
             store.commit('toggleMusicList') //  如果播放有加载中的图片进行占位则不必放在回调内，减少加载时的等待
           })
-          .catch(function (err) {
+          .catch((err) => {
             console.log(err)
           })
       }

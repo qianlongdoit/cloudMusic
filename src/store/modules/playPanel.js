@@ -11,7 +11,17 @@ const state = {
   showSongList: false,  //播放列表是否显示
   showMusicList: false, //歌单列表是否显示
   showCurrent: false, //当前播放页面是否显示
-  currentCD: [],
+  currentCD: {    //当前播放的歌曲信息
+    name: '逍遥叹',
+    al: {
+      picUrl: '../../../static/images/userlogo.jpg'
+    },
+    ar: [{id: '',name: '胡歌', tns: [], alias: []}],
+    alia: []
+  },
+  sourceUrl : [
+    {url: '../../../static/music/逍遥叹.mp3'}
+  ],
   // musicDuration: 0, //歌曲时长
   // playingTime: 0, //当前播放时间
   playing: false, //是否正在播放
@@ -24,6 +34,7 @@ const mutations = {
   },
   play(state){
     state.playing = true;
+    state.audioElement.load()
     state.audioElement.play()
   },
   pause(state){
@@ -50,11 +61,18 @@ const mutations = {
   //  设置当前播发的CD
   setCurrentCD(state, index){
     state.currentCD = state.listDetail.tracks[index];
+  },
+  //  设置当前播放CD的url
+  setSourceUrl(state, obj){
+    state.audioElement.setAttribute('src', obj.url);
   }
 }
 
 const actions = {
-
+  set_sourceUrl({commit}, obj){
+    commit('setSourceUrl', obj)
+    commit('play')
+  }
 }
 
 export default {
