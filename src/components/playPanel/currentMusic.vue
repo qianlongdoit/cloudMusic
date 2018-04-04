@@ -45,6 +45,7 @@
         </transition>
 
         <div class="content-footer">
+          <v-playProgress></v-playProgress>
 
         </div>
       </div>
@@ -54,6 +55,7 @@
 
 <script>
   import store from '../../store'
+  import playProgress from './playProgress.vue'
   export default {
     computed: {
       playing(){
@@ -93,13 +95,14 @@
       showCurrent(){
         var songName = this.$refs.songName;
         setTimeout(() => {
-
-          console.log(this.$refs.songName.offsetWidth)
           this.playing && songName.offsetWidth > 287
             ? songName.classList.add('text-flow')
             : songName.classList.remove('text-flow')
         }, 1000)
       }
+    },
+    components: {
+      "v-playProgress": playProgress
     }
   }
 </script>
@@ -119,6 +122,7 @@
 
   .text-flow
     animation scroll 10s linear 2s infinite
+
   .current-music
     position fixed
     top 0
@@ -251,4 +255,6 @@
           transform translateX(-50%)
       .lrc-wrapper
         display none
+      .content-footer
+        color red
 </style>
