@@ -256,5 +256,10 @@
       .lrc-wrapper
         display none
       .content-footer
-        color red
+        position absolute
+        left 0
+        bottom 0
+        height 18vh
+        width 100%
+        color #fff
 </style>
