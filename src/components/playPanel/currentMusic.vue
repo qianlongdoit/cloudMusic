@@ -9,7 +9,7 @@
         <div class="header">
           <i class="icon icon-back" @click="hideCurrent"></i>
           <div class="info">
-            <p ref="songName">{{CD.name}}{{CD.alia.length ? '(' + CD.alia[0] + ')' : ''}}</p>
+            <p ref="songName" :class="[playing && overFlow?'text-flow':'']">{{CD.name}}{{CD.alia.length ? '(' + CD.alia[0] + ')' : ''}}</p>
             <p>
               {{CD.ar | artist}}
               <i class="icon icon-right"></i>
@@ -57,6 +57,11 @@
   import store from '../../store'
   import playProgress from './playProgress.vue'
   export default {
+    data(){
+      return {
+        overFlow: false
+      }
+    },
     computed: {
       playing(){
         return store.state.playPanel.playing;
@@ -67,6 +72,14 @@
       CD(){
         return store.state.playPanel.currentCD
       },
+      flow: {
+        get: function () {
+          return this.overFlow;
+        },
+        set: function (value) {
+          this.overFlow = value;
+        }
+      }
     },
     methods: {
       hideCurrent(){
@@ -94,10 +107,9 @@
       },
       showCurrent(){
         var songName = this.$refs.songName;
+        var _this = this;
         setTimeout(() => {
-          this.playing && songName.offsetWidth > 287
-            ? songName.classList.add('text-flow')
-            : songName.classList.remove('text-flow')
+          _this.flow = songName.offsetWidth > 287;
         }, 1000)
       }
     },

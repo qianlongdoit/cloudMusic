@@ -1,10 +1,10 @@
 <template>
   <section class="play-panel" v-if="">
-    <img class="song-cover" :src="CD.al.picUrl" @click="test">
+    <img class="song-cover" :src="CD.al.picUrl">
 
     <div class="summary" @click="showCurrentMusic">
       <div class="song-name-wrapper">
-        <p class="song-name" ref="songName">
+        <p class="song-name" ref="songName" :class="[playing && overFlow ?'text-flow':'']">
           {{CD.name}}{{CD.alia.length ? '(' + CD.alia[0] + ')' : ''}}
         </p>
       </div>
@@ -29,20 +29,28 @@
   import musicList from './musicList.vue'
   import currentMusic from './currentMusic.vue'
   export default{
+    data(){
+      return {
+        overFlow: false
+      }
+    },
     computed: {
       playing(){
         return store.state.playPanel.playing;
       },
       CD(){
         return store.state.playPanel.currentCD;
+      },
+      flow: {
+        get: function () {
+          return this.overFlow;
+        },
+        set: function(value){
+          this.overFlow = value;
+        }
       }
     },
     methods: {
-      test(){
-        console.log(this.$refs.songName.offsetWidth > 220)
-        console.log(this.$refs.songName.offsetWidth)
-        console.log(this.playing)
-      },
       togglePlay(){
         store.commit('togglePlay');
       },
@@ -56,10 +64,9 @@
     watch: {
       CD(){
         var songName = this.$refs.songName;
+        var _this = this;
         setTimeout(() => {
-          this.playing && songName.offsetWidth > 220
-            ? songName.classList.add('text-flow')
-            : songName.classList.remove('text-flow')
+          _this.flow = songName.offsetWidth > 220;
         }, 1000)
       }
     },
