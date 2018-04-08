@@ -9,7 +9,8 @@
         <div class="header">
           <i class="icon icon-back" @click="hideCurrent"></i>
           <div class="info">
-            <p ref="songName" :class="[playing && overFlow?'text-flow':'']">{{CD.name}}{{CD.alia.length ? '(' + CD.alia[0] + ')' : ''}}</p>
+            <p ref="songName" :class="[playing && overFlow?'text-flow':'']">
+              {{CD.name}}{{CD.alia.length ? '(' + CD.alia[0] + ')' : ''}}</p>
             <p>
               {{CD.ar | artist}}
               <i class="icon icon-right"></i>
@@ -19,7 +20,7 @@
         </div>
 
         <transition name="fade">
-          <div class="cd-wrapper" @click="togglePlaying">
+          <div class="cd-wrapper">
             <div class="needle" :class="[playing? '': 'pause']"></div>
 
             <div class="cd" ref="cd">
@@ -47,6 +48,13 @@
         <div class="content-footer">
           <v-playProgress></v-playProgress>
 
+          <div class="play-ctrl">
+            <i class="icon" :class="playModelClass[playModel]" @click="switchModel"></i>
+            <i class="icon icon-prevdetail"></i>
+            <i class="icon" :class="[running?'icon-pause-detail':'icon-playdetail']" @click="togglePlaying"></i>
+            <i class="icon icon-nextdetail" @click="test"></i>
+            <i class="icon icon-list-music" @click="showList"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -59,19 +67,12 @@
   export default {
     data(){
       return {
-        overFlow: false
+        overFlow: false,
+        playModelClass: ['icon-music-shunxu', 'icon-music-random', 'icon-music-danqu1'],
+        isRunning: false,
       }
     },
     computed: {
-      playing(){
-        return store.state.playPanel.playing;
-      },
-      showCurrent(){
-        return store.state.playPanel.showCurrent
-      },
-      CD(){
-        return store.state.playPanel.currentCD
-      },
       flow: {
         get: function () {
           return this.overFlow;
@@ -79,6 +80,32 @@
         set: function (value) {
           this.overFlow = value;
         }
+      },
+      running: {
+        get(){
+          return this.isRunning;
+        },
+        set(value){
+          this.isRunning = value;
+        }
+      },
+      playing(){
+        return store.state.playPanel.playing;
+      },
+      playModel(){
+        return store.state.playPanel.playModel;
+      },
+      showCurrent(){
+        return store.state.playPanel.showCurrent
+      },
+      CD(){
+        return store.state.playPanel.currentCD
+      },
+      timer(){
+        return store.state.playPanel.timer;
+      },
+      playedTime(){
+
       }
     },
     methods: {
@@ -86,14 +113,33 @@
         store.commit('toggleCurrentMusic')
       },
       togglePlaying(){
+        this.running = !this.running;
+        var _this = this;
         if (this.playing) {
+          clearInterval(store.state.playPanel.timer)
           setTimeout(() => {
             store.commit('togglePlay')
           }, 1000)
         } else {
           store.commit('togglePlay')
+          store.commit('setTimer', setInterval(() => {
+            var playedTime = store.state.playPanel.audioElement.currentTime;
+            store.commit('setCurrentProcess', playedTime*1000/_this.CD.dt)
+            console.log(store.state.playPanel.audioElement.currentTime)
+            console.log(store.state.playPanel.playingTime)
+          }, 1000))
         }
+      },
+      switchModel(){
+        store.commit('switchModel')
+      },
+      showList(){
+        store.state.playPanel.showSongList = true;
+      },
+      test(){
+        console.log(store.state.playPanel.audioElement.currentTime)
       }
+
     },
     watch: {
       playing: function (current, old) {
@@ -167,7 +213,7 @@
       .header
         display flex
         align-items center
-        border-bottom 1px solid #7e8c8d57
+        border-bottom 1px solid #7e8c8d 57
         .icon-back
           color #fff
           flex 0 0 44px
@@ -274,4 +320,13 @@
         height 18vh
         width 100%
         color #fff
+        .play-ctrl
+          height 12vh
+          display flex
+          justify-content space-around
+          align-items center
+          i
+            width 40px
+            text-align center
+            font-size 32px
 </style>

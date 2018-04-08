@@ -6,8 +6,6 @@ import global from '../../global'
 
 const state = {
   audioElement: '',  //audio标签
-  // song: '', //歌曲名
-  // artist: '', //演唱者
   listDetail: {
     tracks:[]
   }, //歌单信息
@@ -28,6 +26,7 @@ const state = {
   // musicDuration: 0, //歌曲时长
   playingTime: 0, //当前播放时间
   playing: false, //是否正在播放
+  timer: 0,
 
 }
 
@@ -74,6 +73,10 @@ const mutations = {
   setCurrentProcess(state, percent){
     state.playingTime = percent;
   },
+  //  设置当前播放的计时器ID
+  setTimer(state, id){
+    state.timer = id;
+  },
   //  歌单中移除指定的CD
   removeOne(state, i){
     // state.listSheet.splice(i, 1);
@@ -98,9 +101,6 @@ const actions = {
       });
 
   },
-  set_currentPercent({commit}, percent){
-    commit('setCurrentProcess', percent)
-  }
 }
 
 export default {

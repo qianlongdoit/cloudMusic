@@ -92,9 +92,6 @@
     }
   }
 
-  .icon-pause-detail
-    color red
-
   .text-flow
     animation scroll 10s linear 2s infinite
 
@@ -134,5 +131,7 @@
     .control
       line-height 40px
       font-size 28px
+      .icon-pause-detail
+        color red
 
 </style>

@@ -7,7 +7,7 @@
         <span class="progress-ball" ref="ball"></span>
       </div>
     </div>
-    <span @click="test">{{CD.dt | timeFormatter}}</span>
+    <span>{{CD.dt | timeFormatter}}</span>
   </div>
 </template>
 
@@ -20,17 +20,20 @@
       }
     },
     computed: {
-      percent: {
-        get() {
-          return this.progress;
-        },
-        set(value){
-          this.progress = value;
-        }
+//      percent: {
+//        get() {
+//          return this.progress;
+//        },
+//        set(value){
+//          this.progress = value;
+//        }
+//      },
+      percent(){
+        return store.state.playPanel.playingTime;
       },
       CD(){
         return store.state.playPanel.currentCD;
-      }
+      },
     },
     filters: {
       timeFormatter(value){
@@ -43,51 +46,61 @@
       }
     },
     methods: {
-      test(){
-        var time = this.CD.dt;
-        console.log(new Date(time).getMinutes())
-        console.log(new Date(time).getSeconds())
-      }
+//      test(){
+//        var time = this.CD.dt;
+//        console.log(new Date(time).getMinutes())
+//        console.log(new Date(time).getSeconds())
+//      }
     },
     mounted(){
       //  加载时添加进度条拖拽事件
       var _this = this;
       var start,
         end,
-        intialLeft;
+        intialLeft,
+        maxLeft,
+        percent;
       var ball = this.$refs.ball;
       var current = this.$refs.current;
       var ballWrapper = this.$refs.ballWrapper;
-      var maxLeft = ballWrapper.offsetWidth - ball.offsetWidth/2;
 
       ballWrapper.addEventListener('touchstart', function (e) {
+        maxLeft = ballWrapper.offsetWidth - ball.offsetWidth / 2;
         start = e.touches[0].clientX;
         intialLeft = ball.offsetLeft;
-        ball.style.left = (start - ballWrapper.offsetLeft) + 'px';
-        current.style.width = (start - ballWrapper.offsetLeft) + 'px';
-        _this.percent = parseFloat(current.style.width) / maxLeft;
-        console.log( _this.percent)
+        var width = start - ballWrapper.offsetLeft;
+        if (width < 0) {
+          width = 0;
+        } else if (width > maxLeft) {
+          width = maxLeft;
+        }
+        ball.style.left = width - ball.offsetWidth / 2 + 'px';
+        current.style.width = width + 'px';
+//        _this.percent = width / ballWrapper.offsetWidth;
+        percent = width / ballWrapper.offsetWidth;
+        store.commit('setCurrentProcess', width / ballWrapper.offsetWidth)
 
         ballWrapper.addEventListener('touchmove', drag);
       });
 
       ballWrapper.addEventListener('touchend', function () {
         ballWrapper.removeEventListener('touchmove', drag)
-        store.commit('setCurrentProcess', _this.percent)
+        store.commit('setCurrentProcess', percent)
       });
 
       function drag(e) {
         end = e.touches[0].clientX;
         var finalLeft = intialLeft + (end - start);
-        if (finalLeft < -8) {
-          finalLeft = -8;
+        if (finalLeft < -ball.offsetWidth / 2) {
+          finalLeft = -ball.offsetWidth / 2;
         } else if (finalLeft > maxLeft) {
           finalLeft = maxLeft;
         }
         ball.style.left = finalLeft + 'px';
-        current.style.width = Math.abs(finalLeft) + 'px';
-        _this.percent = parseFloat(current.style.width)/maxLeft;
-        console.log( _this.percent)
+        current.style.width = finalLeft + ball.offsetWidth / 2 + 'px';
+        percent = (finalLeft + ball.offsetWidth / 2) / ballWrapper.offsetWidth;
+        store.commit('setCurrentProcess', percent)
+
       }
     }
   }
