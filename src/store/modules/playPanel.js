@@ -26,7 +26,7 @@ const state = {
   },
   current: 0, //当前播放的索引
   // musicDuration: 0, //歌曲时长
-  // playingTime: 0, //当前播放时间
+  playingTime: 0, //当前播放时间
   playing: false, //是否正在播放
 
 }
@@ -70,6 +70,10 @@ const mutations = {
   setSourceUrl(state, obj){
     state.audioElement.setAttribute('src', obj.url);
   },
+  //  设置当前的播放进度
+  setCurrentProcess(state, percent){
+    state.playingTime = percent;
+  },
   //  歌单中移除指定的CD
   removeOne(state, i){
     // state.listSheet.splice(i, 1);
@@ -93,6 +97,9 @@ const actions = {
         console.log(err)
       });
 
+  },
+  set_currentPercent({commit}, percent){
+    commit('setCurrentProcess', percent)
   }
 }
 

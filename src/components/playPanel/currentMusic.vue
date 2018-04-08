@@ -167,7 +167,7 @@
       .header
         display flex
         align-items center
-        border-bottom 1px solid #7e8c8d
+        border-bottom 1px solid #7e8c8d57
         .icon-back
           color #fff
           flex 0 0 44px
