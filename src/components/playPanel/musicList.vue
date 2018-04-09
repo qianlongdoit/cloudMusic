@@ -74,14 +74,14 @@
           </div>
 
           <ul class="sheet-item">
-            <li class="item" v-for="(item, index) in tracks" @click="play(index)">
+            <li class="item" v-for="(item, index) in tracks">
               <div class="index">
                 <span v-if="now !== index">{{index + 1}}</span>
                 <i v-if="now === index" class="icon icon-volume-medium" style="color: red"></i>
               </div>
 
               <div class="item-body">
-                <div>
+                <div @click="play(index)">
                   <p class="item-title">
                     {{item.name}}
                     <span v-if="item.alia.length">({{item.alia[0]}})</span></p>

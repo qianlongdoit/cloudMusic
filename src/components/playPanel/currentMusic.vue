@@ -50,9 +50,9 @@
 
           <div class="play-ctrl">
             <i class="icon" :class="playModelClass[playModel]" @click="switchModel"></i>
-            <i class="icon icon-prevdetail"></i>
+            <i class="icon icon-prevdetail" @click="playPre"></i>
             <i class="icon" :class="[running?'icon-pause-detail':'icon-playdetail']" @click="togglePlaying"></i>
-            <i class="icon icon-nextdetail"></i>
+            <i class="icon icon-nextdetail" @click="playNext"></i>
             <i class="icon icon-list-music" @click="showList"></i>
           </div>
         </div>
@@ -127,9 +127,14 @@
       showList(){
         store.state.playPanel.showSongList = true;
       },
-//      test(){
-//        console.log(store.state.playPanel)
-//      }
+      playNext(){
+        store.commit('playNext');
+        store.dispatch('set_sourceUrl', store.state.playPanel.current)
+      },
+      playPre(){
+        store.commit('playNext', false);
+        store.dispatch('set_sourceUrl', store.state.playPanel.current)
+      }
 
     },
     watch: {

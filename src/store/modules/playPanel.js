@@ -6,7 +6,7 @@ import global from '../../global'
 
 const state = {
   audioElement: '',  //audio标签
-  listDetail: {
+  listDetail: {   //原始后台传递的歌单信息
     tracks: []
   }, //歌单信息
   playModel: 0, //播放模式  0、列表循环 1、随机播放 2、单曲循环
@@ -33,7 +33,7 @@ const state = {
 const mutations = {
   init(state, ele){
     state.audioElement = ele;
-    ele.addEventListener('ended', ()=>{
+    ele.addEventListener('ended', () => {
       // console.log('ended')
       clearInterval(state.timer)
       state.playing = false
@@ -43,6 +43,29 @@ const mutations = {
     state.playing = true;
     state.audioElement.load()
     state.audioElement.play()
+  },
+  playNext(state, isNext = true){
+    let length = state.listDetail.tracks.length;
+    let index = state.current;
+    let model = state.playModel;
+    if (!length) return false;
+    switch (model) {
+      case 0:  //列表
+        isNext ? index++ : index--;
+        if (index < 0) {
+          index += length;
+        }
+        state.current = index % length;
+        break;
+      case 1:  //随机
+        state.current = parseInt(Math.random() * length);
+        break;
+      case 2:  //单曲
+        return false;
+        break;
+
+    }
+
   },
   pause(state){
     state.playing = false;
@@ -66,6 +89,12 @@ const mutations = {
   toggleCurrentMusic(state){
     state.showCurrent = !state.showCurrent;
   },
+
+  //  设置listDetail及listSheet
+  setListDetail(state, obj){
+    state.listDetail = obj;
+    state.listSheet = JSON.parse(JSON.stringify(obj.tracks));
+  },
   //  设置当前播发的CD
   setCurrentCD(state, index){
     state.current = index;
@@ -77,7 +106,7 @@ const mutations = {
   },
   //  获取播放时长
   setMusicDuration(state){
-    if (state.currentCD.dt){
+    if (state.currentCD.dt) {
       //  获取网易云的后台的音乐时长
       state.musicDuration = state.currentCD.dt;
     } else {
@@ -111,7 +140,8 @@ const mutations = {
 }
 
 const actions = {
-  set_sourceUrl({commit}, i){
+  //  播放指定index的歌曲
+  set_sourceUrl({commit, state}, i){
     commit('setCurrentCD', i);
     axios.get(global.serverAddress + '/music/url?id=' + state.currentCD.id)
       .then((res) => {
@@ -123,7 +153,7 @@ const actions = {
       });
   },
   set_percent({commit}){
-    state.timer = setInterval(()=>{
+    state.timer = setInterval(() => {
       var percent = state.audioElement.currentTime * 1000 / state.musicDuration;
 
       commit('setPercent', percent)
