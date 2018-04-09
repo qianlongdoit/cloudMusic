@@ -7,7 +7,7 @@ import global from '../../global'
 const state = {
   audioElement: '',  //audio标签
   listDetail: {
-    tracks:[]
+    tracks: []
   }, //歌单信息
   playModel: 0, //播放模式  0、列表循环 1、随机播放 2、单曲循环
   listSheet: [],  //播放列表
@@ -23,16 +23,21 @@ const state = {
     alia: []
   },
   current: 0, //当前播放的索引
-  // musicDuration: 0, //歌曲时长
-  playingTime: 0, //当前播放时间
+  musicDuration: 0, //歌曲时长(毫秒)
+  percent: 0, //当前播放时间的比例(0-1)
   playing: false, //是否正在播放
-  timer: 0,
+  timer: 0, //当前播放动画的计时器
 
 }
 
 const mutations = {
   init(state, ele){
     state.audioElement = ele;
+    ele.addEventListener('ended', ()=>{
+      // console.log('ended')
+      clearInterval(state.timer)
+      state.playing = false
+    })
   },
   play(state){
     state.playing = true;
@@ -42,6 +47,7 @@ const mutations = {
   pause(state){
     state.playing = false;
     state.audioElement.pause()
+    clearInterval(state.timer)
   },
   togglePlay(){
     state.playing ? state.audioElement.pause() : state.audioElement.play();
@@ -66,12 +72,28 @@ const mutations = {
     state.currentCD = state.listDetail.tracks[index];
   },
   //  设置当前播放CD的url
-  setSourceUrl(state, obj){
-    state.audioElement.setAttribute('src', obj.url);
+  setSourceUrl(state, url){
+    state.audioElement.setAttribute('src', url);
   },
-  //  设置当前的播放进度
-  setCurrentProcess(state, percent){
-    state.playingTime = percent;
+  //  获取播放时长
+  setMusicDuration(state){
+    if (state.currentCD.dt){
+      //  获取网易云的后台的音乐时长
+      state.musicDuration = state.currentCD.dt;
+    } else {
+      //  获取本地音乐的音乐时长
+      state.audioElement.oncanplay = function () {
+        state.musicDuration = state.audioElement.duration * 1000;
+      }
+    }
+  },
+  //  设置播放的percent值
+  setPercent(state, percent){
+    state.percent = percent;
+  },
+  //  设置播放的进度
+  setCurrentTime(state, percent){
+    state.audioElement.currentTime = state.musicDuration * percent / 1000;
   },
   //  设置当前播放的计时器ID
   setTimer(state, id){
@@ -93,14 +115,20 @@ const actions = {
     commit('setCurrentCD', i);
     axios.get(global.serverAddress + '/music/url?id=' + state.currentCD.id)
       .then((res) => {
-        commit('setSourceUrl', res.data.data[0]);
+        commit('setSourceUrl', res.data.data[0].url);
         commit('play');
       })
       .catch((err) => {
         console.log(err)
       });
-
   },
+  set_percent({commit}){
+    state.timer = setInterval(()=>{
+      var percent = state.audioElement.currentTime * 1000 / state.musicDuration;
+
+      commit('setPercent', percent)
+    }, 1000)
+  }
 }
 
 export default {

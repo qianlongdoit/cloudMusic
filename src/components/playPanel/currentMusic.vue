@@ -1,6 +1,6 @@
 <template>
   <transition name="bottomInOut">
-    <div class="current-music" v-show="showCurrent">
+    <div class="current-music" v-show="showCurrentPage">
       <div class="filterBG" :style="{backgroundImage: 'url('+ CD.al.picUrl +')',
        backgroundSize: 'cover',
        backgroundPosition: 'center center'}"></div>
@@ -52,7 +52,7 @@
             <i class="icon" :class="playModelClass[playModel]" @click="switchModel"></i>
             <i class="icon icon-prevdetail"></i>
             <i class="icon" :class="[running?'icon-pause-detail':'icon-playdetail']" @click="togglePlaying"></i>
-            <i class="icon icon-nextdetail" @click="test"></i>
+            <i class="icon icon-nextdetail"></i>
             <i class="icon icon-list-music" @click="showList"></i>
           </div>
         </div>
@@ -95,7 +95,7 @@
       playModel(){
         return store.state.playPanel.playModel;
       },
-      showCurrent(){
+      showCurrentPage(){
         return store.state.playPanel.showCurrent
       },
       CD(){
@@ -103,9 +103,6 @@
       },
       timer(){
         return store.state.playPanel.timer;
-      },
-      playedTime(){
-
       }
     },
     methods: {
@@ -114,20 +111,14 @@
       },
       togglePlaying(){
         this.running = !this.running;
-        var _this = this;
         if (this.playing) {
-          clearInterval(store.state.playPanel.timer)
           setTimeout(() => {
             store.commit('togglePlay')
           }, 1000)
         } else {
           store.commit('togglePlay')
-          store.commit('setTimer', setInterval(() => {
-            var playedTime = store.state.playPanel.audioElement.currentTime;
-            store.commit('setCurrentProcess', playedTime*1000/_this.CD.dt)
-            console.log(store.state.playPanel.audioElement.currentTime)
-            console.log(store.state.playPanel.playingTime)
-          }, 1000))
+          //  设置播放的动画
+          store.dispatch('set_percent')
         }
       },
       switchModel(){
@@ -136,9 +127,9 @@
       showList(){
         store.state.playPanel.showSongList = true;
       },
-      test(){
-        console.log(store.state.playPanel.audioElement.currentTime)
-      }
+//      test(){
+//        console.log(store.state.playPanel)
+//      }
 
     },
     watch: {
@@ -151,16 +142,23 @@
           this.$refs.cd.style.transform = CDTrans === 'none' ? CDCoverTrans : CDCoverTrans.concat('', CDTrans)
         }
       },
-      showCurrent(){
+      showCurrentPage(current, old){
+        if (!this.playing) return false;
         var songName = this.$refs.songName;
         var _this = this;
         setTimeout(() => {
           _this.flow = songName.offsetWidth > 287;
-        }, 1000)
+        }, 1000);
+
+        //  页面显示且处于播放状态的时候进度条时间的自动更新
+        store.dispatch('set_percent')
       }
     },
     components: {
       "v-playProgress": playProgress
+    },
+    mounted(){
+
     }
   }
 </script>

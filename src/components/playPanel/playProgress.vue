@@ -1,38 +1,28 @@
 <template>
   <div class="progress">
-    <span>{{percent * CD.dt | timeFormatter}}</span>
+    <span>{{percent * duration | timeFormatter}}</span>
     <div class="progress-bar" ref="ballWrapper">
       <div class="progress-content">
-        <span class="current-progress" ref="current"></span>
-        <span class="progress-ball" ref="ball"></span>
+        <span class="current-progress" :style="{width:percent*100 + '%'}" ref="current"></span>
+        <span class="progress-ball" :style="{left: left}" ref="ball"></span>
       </div>
     </div>
-    <span>{{CD.dt | timeFormatter}}</span>
+    <span @click="test">{{duration | timeFormatter}}</span>
   </div>
 </template>
 
 <script>
   import store from '../../store'
   export default {
-    data(){
-      return {
-        progress: 0
-      }
-    },
     computed: {
-//      percent: {
-//        get() {
-//          return this.progress;
-//        },
-//        set(value){
-//          this.progress = value;
-//        }
-//      },
-      percent(){
-        return store.state.playPanel.playingTime;
+      left(){
+        return `calc(${this.percent * 100}% - 8px)` //calc()内运算符要空格隔开!
       },
-      CD(){
-        return store.state.playPanel.currentCD;
+      percent(){
+        return store.state.playPanel.percent;
+      },
+      duration(){
+        return store.state.playPanel.musicDuration;
       },
     },
     filters: {
@@ -46,15 +36,12 @@
       }
     },
     methods: {
-//      test(){
-//        var time = this.CD.dt;
-//        console.log(new Date(time).getMinutes())
-//        console.log(new Date(time).getSeconds())
-//      }
+      test(){
+        console.log(this.percent)
+      }
     },
     mounted(){
       //  加载时添加进度条拖拽事件
-      var _this = this;
       var start,
         end,
         intialLeft,
@@ -76,16 +63,16 @@
         }
         ball.style.left = width - ball.offsetWidth / 2 + 'px';
         current.style.width = width + 'px';
-//        _this.percent = width / ballWrapper.offsetWidth;
         percent = width / ballWrapper.offsetWidth;
-        store.commit('setCurrentProcess', width / ballWrapper.offsetWidth)
+        store.commit('setPercent', percent)
 
         ballWrapper.addEventListener('touchmove', drag);
       });
 
+      //  拖拽结束时，取消移动监听事件，播放拖拽后的播放进度
       ballWrapper.addEventListener('touchend', function () {
         ballWrapper.removeEventListener('touchmove', drag)
-        store.commit('setCurrentProcess', percent)
+        store.commit('setCurrentTime', percent)
       });
 
       function drag(e) {
@@ -99,8 +86,7 @@
         ball.style.left = finalLeft + 'px';
         current.style.width = finalLeft + ball.offsetWidth / 2 + 'px';
         percent = (finalLeft + ball.offsetWidth / 2) / ballWrapper.offsetWidth;
-        store.commit('setCurrentProcess', percent)
-
+        store.commit('setPercent', percent)
       }
     }
   }

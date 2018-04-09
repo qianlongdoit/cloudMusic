@@ -15,7 +15,7 @@
       <i class="icon" :class="[playing?'icon-pause-detail':'icon-playdetail']" @click="togglePlay"></i>
       <i class="icon icon-list-music" @click="showList"></i>
     </div>
-    <audio ref="audio" src="../../../static/music/逍遥叹.mp3"></audio>
+    <audio ref="audio"></audio>
 
     <v-playList :info="{}"></v-playList>
     <v-musicList></v-musicList>
@@ -73,6 +73,8 @@
     mounted(){
       //  初始化播放器
       store.commit('init', this.$refs.audio)
+      store.commit('setSourceUrl', '../../../static/music/逍遥叹.mp3')
+      store.commit('setMusicDuration')
     },
     components: {
       "v-playList": playList,
