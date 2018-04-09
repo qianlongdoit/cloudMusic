@@ -14,6 +14,7 @@ const state = {
   showSongList: false,  //播放列表是否显示
   showMusicList: false, //歌单列表是否显示
   showCurrent: false, //当前播放页面是否显示
+  showLrc: false, //是否切换显示歌词
   currentCD: {    //当前播放的歌曲信息
     name: '逍遥叹',
     al: {
@@ -63,9 +64,7 @@ const mutations = {
       case 2:  //单曲
         return false;
         break;
-
     }
-
   },
   pause(state){
     state.playing = false;
@@ -88,6 +87,9 @@ const mutations = {
   },
   toggleCurrentMusic(state){
     state.showCurrent = !state.showCurrent;
+  },
+  toggleLrc(state){
+    state.showLrc = !state.showLrc;
   },
 
   //  设置listDetail及listSheet

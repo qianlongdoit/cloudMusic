@@ -31,7 +31,6 @@
       showMusicList(id){
         this.$axios.get(global.serverAddress + '/playlist/detail?id=' + id)
           .then((res) => {
-            store.state.playPanel.listDetail = res.data.playlist;
             store.commit('setListDetail', res.data.playlist)
             store.commit('toggleMusicList') //  如果播放有加载中的图片进行占位则不必放在回调内，减少加载时的等待
           })

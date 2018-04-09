@@ -20,7 +20,7 @@
         </div>
 
         <transition name="fade">
-          <div class="cd-wrapper">
+          <div class="cd-wrapper" v-show="!lrc" @click="toggleLrc">
             <div class="needle" :class="[playing? '': 'pause']"></div>
 
             <div class="cd" ref="cd">
@@ -40,8 +40,8 @@
         </transition>
 
         <transition name="fade">
-          <div class="lrc-wrapper">
-
+          <div class="lrc-wrapper" v-show="lrc" @click="toggleLrc">
+            显示歌词
           </div>
         </transition>
 
@@ -98,6 +98,9 @@
       showCurrentPage(){
         return store.state.playPanel.showCurrent
       },
+      lrc(){
+        return store.state.playPanel.showLrc;
+      },
       CD(){
         return store.state.playPanel.currentCD
       },
@@ -120,6 +123,9 @@
           //  设置播放的动画
           store.dispatch('set_percent')
         }
+      },
+      toggleLrc(){
+        store.commit('toggleLrc')
       },
       switchModel(){
         store.commit('switchModel')
@@ -255,13 +261,18 @@
           text-align center
           font-size 38px
           color #fff
-      .cd-wrapper
+      .cd-wrapper, .lrc-wrapper
         position absolute
         top 60px
         left 0
         right 0
         bottom 20vh
         overflow hidden
+        &.fade-enter-to, &.fade-leave-to
+          transition: opacity 0.3s
+        &.fade-enter, &.fade-leave-to
+          opacity: 0
+      .cd-wrapper
         .pause
           transform rotateZ(-30deg)
         .needle
@@ -315,7 +326,7 @@
           width 75vw
           transform translateX(-50%)
       .lrc-wrapper
-        display none
+        color #fff
       .content-footer
         position absolute
         left 0
