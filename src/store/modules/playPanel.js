@@ -33,13 +33,8 @@ const state = {
 }
 
 const mutations = {
-  init(state, ele){
+  setAudioElement(state, ele){
     state.audioElement = ele;
-    ele.addEventListener('ended', () => {
-      // console.log('ended')
-      clearInterval(state.timer)
-      state.playing = false
-    })
   },
   play(state){
     state.playing = true;
@@ -58,22 +53,20 @@ const mutations = {
           index += length;
         }
         state.current = index % length;
+        state.currentCD = state.listDetail.tracks[index];
         break;
       case 1:  //随机
         state.current = parseInt(Math.random() * length);
+        state.currentCD = state.listDetail.tracks[index];
         break;
       case 2:  //单曲
         return false;
         break;
     }
   },
-  pause(state){
-    state.playing = false;
-    state.audioElement.pause()
-    clearInterval(state.timer)
-  },
-  togglePlay(){
-    state.playing ? state.audioElement.pause() : state.audioElement.play();
+  togglePlay(state){
+    // state.playing ? state.audioElement.pause() : state.audioElement.play();
+    state.playing ? (state.audioElement.pause(), clearInterval(state.timer)) : state.audioElement.play();
     state.playing = !state.playing;
   },
   toggleSongList(state){
@@ -135,6 +128,9 @@ const mutations = {
   setTimer(state, id){
     state.timer = id;
   },
+  stopTimer(state){
+    clearInterval(state.timer);
+  },
   //  歌单中移除指定的CD
   removeOne(state, i){
     // state.listSheet.splice(i, 1);
@@ -168,13 +164,15 @@ const actions = {
       })
   },
   //  设置播放进度
-  set_percent({commit}){
-    state.timer = setInterval(() => {
+  set_percent({commit, state}){
+    // console.log('trigger')
+    clearInterval(state.timer);
+    commit('setTimer',setInterval(() => {
       var percent = state.audioElement.currentTime * 1000 / state.musicDuration;
-
+      console.log(percent)
       commit('setPercent', percent)
-    }, 1000)
-  }
+    }, 1000))
+  },
 }
 
 export default {

@@ -134,6 +134,7 @@
       },
       play(i){
         store.dispatch('set_sourceUrl', i);
+        store.dispatch('set_percent')
       }
     },
     watch: {

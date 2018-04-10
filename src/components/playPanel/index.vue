@@ -55,7 +55,7 @@
         store.commit('togglePlay');
       },
       showList(){
-        store.state.playPanel.showSongList = true;
+        store.commit('toggleSongList')
       },
       showCurrentMusic(){
         store.commit('toggleCurrentMusic')
@@ -72,9 +72,15 @@
     },
     mounted(){
       //  初始化播放器
-      store.commit('init', this.$refs.audio)
+      store.commit('setAudioElement', this.$refs.audio)
       store.commit('setSourceUrl', '../../../static/music/逍遥叹.mp3')
       store.commit('setMusicDuration')
+      //  播放结束后自动播放下一首
+      store.state.playPanel.audioElement.addEventListener('ended', ()=>{
+        store.commit('playNext');
+        store.dispatch('set_sourceUrl', store.state.playPanel.current)
+        store.dispatch('set_percent')
+      })
     },
     components: {
       "v-playList": playList,

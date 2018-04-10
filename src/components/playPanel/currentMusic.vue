@@ -41,9 +41,8 @@
 
         <transition name="fade">
           <div class="lrc-wrapper" v-show="showLrc" @click="toggleLrc">
-            <p v-for="(line, index) in lrc" :data-index="index">
-              {{line}} -- {{line.replace(/\[.{8,9}\]/, '')}}
-              <!--line.match(/\[.{8,9}\]/)-->
+            <p v-for="(line, index) in lrc" :data-index="line.match(/\[\S{8,9}\]/)">
+              {{line.replace(/\[.{8,9}\]/, '')}}
             </p>
           </div>
         </transition>
@@ -106,13 +105,11 @@
       },
       lrc(){
         let lrc = store.state.playPanel.lrc
+        //  return [ {time: 秒, lrc: 歌词}, ...]
         return lrc.split('\n');
       },
       CD(){
         return store.state.playPanel.currentCD
-      },
-      timer(){
-        return store.state.playPanel.timer;
       }
     },
     methods: {
@@ -143,10 +140,12 @@
       playNext(){
         store.commit('playNext');
         store.dispatch('set_sourceUrl', store.state.playPanel.current)
+        store.dispatch('set_percent')
       },
       playPre(){
         store.commit('playNext', false);
         store.dispatch('set_sourceUrl', store.state.playPanel.current)
+        store.dispatch('set_percent')
       }
 
     },
@@ -167,16 +166,10 @@
         setTimeout(() => {
           _this.flow = songName.offsetWidth > 287;
         }, 1000);
-
-        //  页面显示且处于播放状态的时候进度条时间的自动更新
-        store.dispatch('set_percent')
       }
     },
     components: {
       "v-playProgress": playProgress
-    },
-    mounted(){
-
     }
   }
 </script>

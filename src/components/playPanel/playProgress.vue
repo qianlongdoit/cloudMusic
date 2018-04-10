@@ -51,7 +51,9 @@
       var current = this.$refs.current;
       var ballWrapper = this.$refs.ballWrapper;
 
+      //  拖拽的时候停止percent进度更新动画
       ballWrapper.addEventListener('touchstart', function (e) {
+        store.commit('stopTimer')
         maxLeft = ballWrapper.offsetWidth - ball.offsetWidth / 2;
         start = e.touches[0].clientX;
         intialLeft = ball.offsetLeft;
@@ -69,10 +71,11 @@
         ballWrapper.addEventListener('touchmove', drag);
       });
 
-      //  拖拽结束时，取消移动监听事件，播放拖拽后的播放进度
+      //  拖拽结束时，1.取消移动监听事件，2.播放拖拽后的播放进度，3.恢复percent更新动画
       ballWrapper.addEventListener('touchend', function () {
         ballWrapper.removeEventListener('touchmove', drag)
-        store.commit('setCurrentTime', percent)
+        store.commit('setCurrentTime', percent) //设置当前的播放进度
+        store.dispatch('set_percent') //恢复动画
       });
 
       function drag(e) {
