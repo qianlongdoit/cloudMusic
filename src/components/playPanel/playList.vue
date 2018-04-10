@@ -61,7 +61,7 @@
     },
     methods: {
       fadeInOut(){
-        store.commit('hiddenSongList')
+        store.commit('toggleSongList')
       },
       switchModel(){
         store.commit('switchModel')

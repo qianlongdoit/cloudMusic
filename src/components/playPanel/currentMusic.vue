@@ -20,7 +20,7 @@
         </div>
 
         <transition name="fade">
-          <div class="cd-wrapper" v-show="!lrc" @click="toggleLrc">
+          <div class="cd-wrapper" v-show="!showLrc" @click="toggleLrc">
             <div class="needle" :class="[playing? '': 'pause']"></div>
 
             <div class="cd" ref="cd">
@@ -40,8 +40,11 @@
         </transition>
 
         <transition name="fade">
-          <div class="lrc-wrapper" v-show="lrc" @click="toggleLrc">
-            显示歌词
+          <div class="lrc-wrapper" v-show="showLrc" @click="toggleLrc">
+            <p v-for="(line, index) in lrc" :data-index="index">
+              {{line}} -- {{line.replace(/\[.{8,9}\]/, '')}}
+              <!--line.match(/\[.{8,9}\]/)-->
+            </p>
           </div>
         </transition>
 
@@ -98,8 +101,12 @@
       showCurrentPage(){
         return store.state.playPanel.showCurrent
       },
-      lrc(){
+      showLrc(){
         return store.state.playPanel.showLrc;
+      },
+      lrc(){
+        let lrc = store.state.playPanel.lrc
+        return lrc.split('\n');
       },
       CD(){
         return store.state.playPanel.currentCD
@@ -131,7 +138,7 @@
         store.commit('switchModel')
       },
       showList(){
-        store.state.playPanel.showSongList = true;
+        store.commit('toggleSongList');
       },
       playNext(){
         store.commit('playNext');
@@ -219,6 +226,8 @@
       bottom 0
       left 0
       z-index 4
+      ::-webkit-scrollbar
+        display none
       .header
         display flex
         align-items center
@@ -267,12 +276,12 @@
         left 0
         right 0
         bottom 20vh
-        overflow hidden
         &.fade-enter-to, &.fade-leave-to
           transition: opacity 0.3s
         &.fade-enter, &.fade-leave-to
           opacity: 0
       .cd-wrapper
+        overflow hidden
         .pause
           transform rotateZ(-30deg)
         .needle
@@ -326,7 +335,14 @@
           width 75vw
           transform translateX(-50%)
       .lrc-wrapper
-        color #fff
+        overflow auto
+        color #ffffff80
+        p
+          font-size 16px
+          line-height 48px
+          text-align center
+        .active
+          color #fff
       .content-footer
         position absolute
         left 0

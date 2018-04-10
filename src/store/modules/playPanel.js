@@ -23,6 +23,7 @@ const state = {
     ar: [{id: '', name: '胡歌', tns: [], alias: []}],
     alia: []
   },
+  lrc: '',  //当前的歌词信息
   current: 0, //当前播放的索引
   musicDuration: 0, //歌曲时长(毫秒)
   percent: 0, //当前播放时间的比例(0-1)
@@ -75,8 +76,8 @@ const mutations = {
     state.playing ? state.audioElement.pause() : state.audioElement.play();
     state.playing = !state.playing;
   },
-  hiddenSongList(state){
-    state.showSongList = false;
+  toggleSongList(state){
+    state.showSongList = !state.showSongList;
   },
   switchModel(state){
     state.playModel = (state.playModel + 1) % 3;
@@ -105,6 +106,10 @@ const mutations = {
   //  设置当前播放CD的url
   setSourceUrl(state, url){
     state.audioElement.setAttribute('src', url);
+  },
+  //  设置当前播放的CD的lrc
+  setLrc(state, lrc){
+    state.lrc = lrc;
   },
   //  获取播放时长
   setMusicDuration(state){
@@ -153,7 +158,16 @@ const actions = {
       .catch((err) => {
         console.log(err)
       });
+    //  获取指定歌曲的lrc
+    axios.get(global.serverAddress + '/lyric?id=' + state.currentCD.id)
+      .then((res=>{
+        commit('setLrc', res.data.lrc.lyric)
+      }))
+      .catch((err)=>{
+        console.log(err)
+      })
   },
+  //  设置播放进度
   set_percent({commit}){
     state.timer = setInterval(() => {
       var percent = state.audioElement.currentTime * 1000 / state.musicDuration;
