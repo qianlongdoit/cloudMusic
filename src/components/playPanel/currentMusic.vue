@@ -40,7 +40,7 @@
         </transition>
 
         <transition name="fade">
-          <div class="lrc-wrapper" v-if="showLrc" @click="toggleLrc" ref="lrcWrapper" @scroll="log">
+          <div class="lrc-wrapper" v-if="showLrc" @click="toggleLrc" ref="lrcWrapper">
             <p v-for="(line, index) in lrc" :class="[nowIndex === index?'active':'']"
                :data-index="line.time">
               {{line.lrc}}
@@ -73,7 +73,6 @@
         overFlow: false,
         playModelClass: ['icon-music-shunxu', 'icon-music-random', 'icon-music-danqu1'],
         isRunning: false,
-        index: 0
       }
     },
     computed: {
@@ -93,14 +92,6 @@
           this.isRunning = value;
         }
       },
-//      nowIndex: {
-//        get(){
-//          return this.index;
-//        },
-//        set(value){
-//          this.index = value;
-//        }
-//      },
       playing(){
         return store.state.playPanel.playing;
       },
@@ -119,7 +110,19 @@
         for (let i = 0; i < lrc.length; i++) {
           let lrc1 = lrc[i].replace(/\[.+\]/, '');
           if (!lrc1) continue;
-          let str = lrc[i].match(/\[.+\]/)[0];
+          let str;
+          //  对不支持滚动的歌词的进行处理
+          try {
+            str = lrc[i].match(/\[.+\]/)[0];
+          } catch (e) {
+            str = '[99:99.999]';
+            if (i === 0) {
+              newLrc.push({
+                time: 0,
+                lrc: '*该歌词不支持自动滚动*'
+              })
+            }
+          }
           let arr = str.slice(1, str.length - 1).split(':');
           let time = arr[0] * 60 + Number(arr[1]);
           newLrc.push({
@@ -140,9 +143,6 @@
       }
     },
     methods: {
-      log(){
-//        console.log(this.$refs.lrcWrapper.scrollTop)
-      },
       hideCurrent(){
         store.commit('toggleCurrentMusic')
       },
@@ -155,7 +155,7 @@
         } else {
           store.commit('togglePlay')
           //  设置播放的动画
-          store.dispatch('set_percent')
+          store.dispatch('set_percent', false)
         }
       },
       toggleLrc(){
@@ -200,17 +200,20 @@
       nowTime(current, old){
         if (!this.showLrc) return;
         let lrc = this.lrc;
+        let pHeight = document.querySelector('.lrc-wrapper p').offsetHeight;
         let i = current - old < 2 ? this.nowIndex : 0;  //如果是顺播放则nowIndex不必从头查找
         for (; i < lrc.length - 1; i++) {
-          if (current >= lrc[i].time && current < lrc[i + 1].time) {
-//            this.nowIndex = i;
+          //  判断条件添加动画的一秒延迟
+          if (current >= lrc[i].time - 0.5 && current < lrc[i + 1].time - 0.5) {
             store.commit('setLrcIndex', i)
             break;
           }
-          console.log(lrc[i].time, current, lrc[i + 1].time)
         }
-        this.$refs.lrcWrapper.scrollTop = this.nowIndex * 46
-        console.log(this.nowIndex)
+        //  对于最后一行的判断
+        if (current >= lrc[lrc.length - 1].time - 0.5) {
+          store.commit('setLrcIndex', lrc.length - 1)
+        }
+        this.$refs.lrcWrapper.scrollTop = this.nowIndex * pHeight - 50
       }
     },
     components: {

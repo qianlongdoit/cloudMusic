@@ -169,12 +169,15 @@ const actions = {
       })
   },
   //  设置播放进度
-  set_percent({commit, state}){
+  set_percent({commit, state}, rePlay = true){
     clearInterval(state.timer);
     commit('setTimer',setInterval(() => {
       var percent = state.audioElement.currentTime * 1000 / state.musicDuration;
       console.log(state.audioElement.currentTime)
       commit('setPercent', percent)
+      if (rePlay) {
+        commit('setLrcIndex', 0)
+      }
     }, 1000))
   },
 }
