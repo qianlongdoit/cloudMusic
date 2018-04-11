@@ -82,7 +82,7 @@
       playSetting(){
         var i = this.now;
         if (this.playSetting.showList){
-          //  如果动画效果没完成，则获取的scrollTop均为0
+          //  如果动画效果没完成，则获取的scrollTop均为0,所以需要延时获取值
           setTimeout(()=>{
             this.$refs.listContent.scrollTop = (i-3)*50
           }, 300)

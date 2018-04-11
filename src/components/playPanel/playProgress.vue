@@ -24,6 +24,9 @@
       duration(){
         return store.state.playPanel.musicDuration;
       },
+      playing(){
+        return store.state.playPanel.playing;
+      }
     },
     filters: {
       timeFormatter(value){
@@ -50,6 +53,7 @@
       var ball = this.$refs.ball;
       var current = this.$refs.current;
       var ballWrapper = this.$refs.ballWrapper;
+      var _this = this;
 
       //  拖拽的时候停止percent进度更新动画
       ballWrapper.addEventListener('touchstart', function (e) {
@@ -75,7 +79,9 @@
       ballWrapper.addEventListener('touchend', function () {
         ballWrapper.removeEventListener('touchmove', drag)
         store.commit('setCurrentTime', percent) //设置当前的播放进度
-        store.dispatch('set_percent') //恢复动画
+        if(_this.playing){ //如果正在播放状态，恢复动画
+          store.dispatch('set_percent')
+        }
       });
 
       function drag(e) {

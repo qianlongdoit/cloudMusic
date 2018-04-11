@@ -44,7 +44,7 @@
     position fixed
     bottom 50px
   .header
-    height 60px
+    height 10vh
     position fixed
     top 0
     left 0

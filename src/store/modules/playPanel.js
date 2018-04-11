@@ -23,8 +23,9 @@ const state = {
     ar: [{id: '', name: '胡歌', tns: [], alias: []}],
     alia: []
   },
-  lrc: '',  //当前的歌词信息
-  current: 0, //当前播放的索引
+  lrc: '歌词加载中...',  //当前的歌词信息
+  lrcIndex: 0,  //当前播放歌词的索引
+  current: 0, //当前播放的列表中的索引
   musicDuration: 0, //歌曲时长(毫秒)
   percent: 0, //当前播放时间的比例(0-1)
   playing: false, //是否正在播放
@@ -104,6 +105,10 @@ const mutations = {
   setLrc(state, lrc){
     state.lrc = lrc;
   },
+  //  设置播放歌曲的lrcIndex
+  setLrcIndex(state, value){
+    state.lrcIndex = value;
+  },
   //  获取播放时长
   setMusicDuration(state){
     if (state.currentCD.dt) {
@@ -165,11 +170,10 @@ const actions = {
   },
   //  设置播放进度
   set_percent({commit, state}){
-    // console.log('trigger')
     clearInterval(state.timer);
     commit('setTimer',setInterval(() => {
       var percent = state.audioElement.currentTime * 1000 / state.musicDuration;
-      console.log(percent)
+      console.log(state.audioElement.currentTime)
       commit('setPercent', percent)
     }, 1000))
   },

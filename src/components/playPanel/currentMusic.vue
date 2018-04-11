@@ -40,9 +40,10 @@
         </transition>
 
         <transition name="fade">
-          <div class="lrc-wrapper" v-show="showLrc" @click="toggleLrc">
-            <p v-for="(line, index) in lrc" :data-index="line.match(/\[\S{8,9}\]/)">
-              {{line.replace(/\[.{8,9}\]/, '')}}
+          <div class="lrc-wrapper" v-if="showLrc" @click="toggleLrc" ref="lrcWrapper" @scroll="log">
+            <p v-for="(line, index) in lrc" :class="[nowIndex === index?'active':'']"
+               :data-index="line.time">
+              {{line.lrc}}
             </p>
           </div>
         </transition>
@@ -72,6 +73,7 @@
         overFlow: false,
         playModelClass: ['icon-music-shunxu', 'icon-music-random', 'icon-music-danqu1'],
         isRunning: false,
+        index: 0
       }
     },
     computed: {
@@ -91,6 +93,14 @@
           this.isRunning = value;
         }
       },
+//      nowIndex: {
+//        get(){
+//          return this.index;
+//        },
+//        set(value){
+//          this.index = value;
+//        }
+//      },
       playing(){
         return store.state.playPanel.playing;
       },
@@ -104,15 +114,35 @@
         return store.state.playPanel.showLrc;
       },
       lrc(){
-        let lrc = store.state.playPanel.lrc
-        //  return [ {time: 秒, lrc: 歌词}, ...]
-        return lrc.split('\n');
+        let lrc = store.state.playPanel.lrc.split('\n')
+        let newLrc = []
+        for (let i = 0; i < lrc.length; i++) {
+          let lrc1 = lrc[i].replace(/\[.+\]/, '');
+          if (!lrc1) continue;
+          let str = lrc[i].match(/\[.+\]/)[0];
+          let arr = str.slice(1, str.length - 1).split(':');
+          let time = arr[0] * 60 + Number(arr[1]);
+          newLrc.push({
+            time: time,
+            lrc: lrc1
+          })
+        }
+        return newLrc;
+      },
+      nowTime(){
+        return store.state.playPanel.percent * store.state.playPanel.musicDuration / 1000;
+      },
+      nowIndex(){
+        return store.state.playPanel.lrcIndex;
       },
       CD(){
         return store.state.playPanel.currentCD
       }
     },
     methods: {
+      log(){
+//        console.log(this.$refs.lrcWrapper.scrollTop)
+      },
       hideCurrent(){
         store.commit('toggleCurrentMusic')
       },
@@ -166,6 +196,21 @@
         setTimeout(() => {
           _this.flow = songName.offsetWidth > 287;
         }, 1000);
+      },
+      nowTime(current, old){
+        if (!this.showLrc) return;
+        let lrc = this.lrc;
+        let i = current - old < 2 ? this.nowIndex : 0;  //如果是顺播放则nowIndex不必从头查找
+        for (; i < lrc.length - 1; i++) {
+          if (current >= lrc[i].time && current < lrc[i + 1].time) {
+//            this.nowIndex = i;
+            store.commit('setLrcIndex', i)
+            break;
+          }
+          console.log(lrc[i].time, current, lrc[i + 1].time)
+        }
+        this.$refs.lrcWrapper.scrollTop = this.nowIndex * 46
+        console.log(this.nowIndex)
       }
     },
     components: {
@@ -265,7 +310,7 @@
           color #fff
       .cd-wrapper, .lrc-wrapper
         position absolute
-        top 60px
+        top 10vh
         left 0
         right 0
         bottom 20vh
@@ -332,8 +377,12 @@
         color #ffffff80
         p
           font-size 16px
-          line-height 48px
+          line-height 7vh
           text-align center
+        p:first-child
+          margin-top 23vh
+        p:last-child
+          margin-bottom 23vh
         .active
           color #fff
       .content-footer

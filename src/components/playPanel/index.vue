@@ -80,6 +80,7 @@
         store.commit('playNext');
         store.dispatch('set_sourceUrl', store.state.playPanel.current)
         store.dispatch('set_percent')
+        store.commit('setLrcIndex', 0)
       })
     },
     components: {
