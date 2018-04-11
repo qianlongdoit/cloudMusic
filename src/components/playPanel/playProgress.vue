@@ -7,7 +7,7 @@
         <span class="progress-ball" :style="{left: left}" ref="ball"></span>
       </div>
     </div>
-    <span @click="test">{{duration | timeFormatter}}</span>
+    <span>{{duration | timeFormatter}}</span>
   </div>
 </template>
 
@@ -36,11 +36,6 @@
         m = m < 10 ? '0' + m : m;
         s = s < 10 ? '0' + s : s;
         return `${m}:${s}`
-      }
-    },
-    methods: {
-      test(){
-        console.log(this.percent)
       }
     },
     mounted(){
@@ -110,6 +105,8 @@
     align-items center
     span
       font-size 12px
+      width 32px
+      text-align center
     .progress-bar
       flex 1
       height 2px

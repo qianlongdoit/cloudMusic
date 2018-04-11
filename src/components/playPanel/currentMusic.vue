@@ -40,11 +40,14 @@
         </transition>
 
         <transition name="fade">
-          <div class="lrc-wrapper" v-if="showLrc" @click="toggleLrc" ref="lrcWrapper">
-            <p v-for="(line, index) in lrc" :class="[nowIndex === index?'active':'']"
-               :data-index="line.time">
-              {{line.lrc}}
-            </p>
+          <div>
+            <v-soundCtrl></v-soundCtrl>
+            <div class="lrc-wrapper" v-if="showLrc" @click="toggleLrc" ref="lrcWrapper">
+              <p v-for="(line, index) in lrc" :class="[nowIndex === index?'active':'']"
+                 :data-index="line.time">
+                {{line.lrc}}
+              </p>
+            </div>
           </div>
         </transition>
 
@@ -67,6 +70,7 @@
 <script>
   import store from '../../store'
   import playProgress from './playProgress.vue'
+  import soundCtrl from './soundCtrl.vue'
   export default {
     data(){
       return {
@@ -203,13 +207,13 @@
         let pHeight = document.querySelector('.lrc-wrapper p').offsetHeight;
         let i = current - old < 2 ? this.nowIndex : 0;  //如果是顺播放则nowIndex不必从头查找
         for (; i < lrc.length - 1; i++) {
-          //  判断条件添加动画的一秒延迟
+          //  歌词换行显示取0.5s的补正
           if (current >= lrc[i].time - 0.5 && current < lrc[i + 1].time - 0.5) {
             store.commit('setLrcIndex', i)
             break;
           }
         }
-        //  对于最后一行的判断
+        //  对于最后一行歌词的判断
         if (current >= lrc[lrc.length - 1].time - 0.5) {
           store.commit('setLrcIndex', lrc.length - 1)
         }
@@ -217,7 +221,8 @@
       }
     },
     components: {
-      "v-playProgress": playProgress
+      "v-playProgress": playProgress,
+      'v-soundCtrl': soundCtrl
     }
   }
 </script>
@@ -313,7 +318,6 @@
           color #fff
       .cd-wrapper, .lrc-wrapper
         position absolute
-        top 10vh
         left 0
         right 0
         bottom 20vh
@@ -322,7 +326,9 @@
         &.fade-enter, &.fade-leave-to
           opacity: 0
       .cd-wrapper
+        top 10vh
         overflow hidden
+        z-index 4
         .pause
           transform rotateZ(-30deg)
         .needle
@@ -378,6 +384,7 @@
       .lrc-wrapper
         overflow auto
         color #ffffff80
+        top 15vh
         p
           font-size 16px
           line-height 7vh
