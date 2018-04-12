@@ -44,6 +44,15 @@
     components: {
       'v-listtile': listTitle,
       'v-musiclist': musicList
+    },
+    created(){
+      this.$axios.get('../../../static/data/allList.json')
+        .then((res) => {
+          console.log(res.data.playlist)
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
     }
   }
 </script>

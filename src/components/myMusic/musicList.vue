@@ -1,5 +1,5 @@
 <template>
-  <div class="musicList">
+  <div class="musicList" @click="showMusicList">
     <img src="../../../static/musiclist/2.jpg" alt="" class="cover">
     <div class="detail">
       <div class="detailWrapper">
@@ -17,8 +17,21 @@
 </template>
 
 <script>
+  import global from '../../global.js'
+  import store from '../../store'
   export default {
-
+    methods:{
+      showMusicList(id){
+        this.$axios.get(global.serverAddress + '/playlist/detail?id=' + id)
+          .then((res) => {
+            store.commit('setListDetail', res.data.playlist)
+            store.commit('toggleMusicList') //  如果播放有加载中的图片进行占位则不必放在回调内，减少加载时的等待
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    }
   }
 </script>
 
