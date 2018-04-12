@@ -10,6 +10,7 @@ const state = {
     tracks: []
   }, //歌单信息
   playModel: 0, //播放模式  0、列表循环 1、随机播放 2、单曲循环
+  volume: 0.6,
   listSheet: [],  //播放列表
   showSongList: false,  //播放列表是否显示
   showMusicList: false, //歌单列表是否显示
@@ -85,6 +86,11 @@ const mutations = {
   },
   toggleLrc(state){
     state.showLrc = !state.showLrc;
+  },
+  //  设置播放器的音量
+  setVolume(state, value){
+    state.volume = value;
+    state.audioElement.volume = value;
   },
 
   //  设置listDetail及listSheet
@@ -173,7 +179,7 @@ const actions = {
     clearInterval(state.timer);
     commit('setTimer',setInterval(() => {
       var percent = state.audioElement.currentTime * 1000 / state.musicDuration;
-      console.log(state.audioElement.currentTime)
+      // console.log(state.audioElement.currentTime)
       commit('setPercent', percent)
       if (rePlay) {
         commit('setLrcIndex', 0)

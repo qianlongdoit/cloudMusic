@@ -40,9 +40,9 @@
         </transition>
 
         <transition name="fade">
-          <div>
+          <div v-if="showLrc">
             <v-soundCtrl></v-soundCtrl>
-            <div class="lrc-wrapper" v-if="showLrc" @click="toggleLrc" ref="lrcWrapper">
+            <div class="lrc-wrapper" @click="toggleLrc" ref="lrcWrapper">
               <p v-for="(line, index) in lrc" :class="[nowIndex === index?'active':'']"
                  :data-index="line.time">
                 {{line.lrc}}
@@ -205,7 +205,7 @@
         if (!this.showLrc) return;
         let lrc = this.lrc;
         let pHeight = document.querySelector('.lrc-wrapper p').offsetHeight;
-        let i = current - old < 2 ? this.nowIndex : 0;  //如果是顺播放则nowIndex不必从头查找
+        let i = Math.abs(current - old) < 2 ? this.nowIndex : 0;  //如果是拖拽歌曲的进度则nowIndex不必从头查找
         for (; i < lrc.length - 1; i++) {
           //  歌词换行显示取0.5s的补正
           if (current >= lrc[i].time - 0.5 && current < lrc[i + 1].time - 0.5) {
@@ -388,6 +388,7 @@
         p
           font-size 16px
           line-height 7vh
+          padding 0 15px
           text-align center
         p:first-child
           margin-top 23vh

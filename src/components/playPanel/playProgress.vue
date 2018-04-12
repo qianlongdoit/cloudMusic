@@ -14,9 +14,14 @@
 <script>
   import store from '../../store'
   export default {
+    data(){
+      return {
+        ballWidth: 0,
+      }
+    },
     computed: {
       left(){
-        return `calc(${this.percent * 100}% - 8px)` //calc()内运算符要空格隔开!
+        return `calc(${this.percent * 100}% - ${this.ballWidth/2}px)` //calc()内运算符要空格隔开!
       },
       percent(){
         return store.state.playPanel.percent;
@@ -46,9 +51,10 @@
         maxLeft,
         percent;
       var ball = this.$refs.ball;
-      var current = this.$refs.current;
+//      var current = this.$refs.current;
       var ballWrapper = this.$refs.ballWrapper;
       var _this = this;
+      this.ballWidth = ball.offsetWidth;
 
       //  拖拽的时候停止percent进度更新动画
       ballWrapper.addEventListener('touchstart', function (e) {
@@ -62,8 +68,8 @@
         } else if (width > maxLeft) {
           width = maxLeft;
         }
-        ball.style.left = width - ball.offsetWidth / 2 + 'px';
-        current.style.width = width + 'px';
+//        ball.style.left = width - ball.offsetWidth / 2 + 'px';
+//        current.style.width = width + 'px';
         percent = width / ballWrapper.offsetWidth;
         store.commit('setPercent', percent)
 
@@ -87,8 +93,8 @@
         } else if (finalLeft > maxLeft) {
           finalLeft = maxLeft;
         }
-        ball.style.left = finalLeft + 'px';
-        current.style.width = finalLeft + ball.offsetWidth / 2 + 'px';
+//        ball.style.left = finalLeft + 'px';
+//        current.style.width = finalLeft + ball.offsetWidth / 2 + 'px';
         percent = (finalLeft + ball.offsetWidth / 2) / ballWrapper.offsetWidth;
         store.commit('setPercent', percent)
       }
