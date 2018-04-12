@@ -76,12 +76,12 @@
           <ul class="sheet-item">
             <li class="item" v-for="(item, index) in tracks">
               <div class="index">
-                <span v-if="now !== index">{{index + 1}}</span>
-                <i v-if="now === index" class="icon icon-volume-medium" style="color: red"></i>
+                <span v-if="id !== item.id">{{index + 1}}</span>
+                <i v-if="id === item.id" class="icon icon-volume-medium" style="color: red"></i>
               </div>
 
               <div class="item-body">
-                <div @click="play(index)">
+                <div @click="play(index, item.id)">
                   <p class="item-title">
                     {{item.name}}
                     <span v-if="item.alia.length">({{item.alia[0]}})</span></p>
@@ -118,8 +118,8 @@
       tracks(){
         return store.state.playPanel.listDetail.tracks;
       },
-      now(){
-        return store.state.playPanel.current
+      id(){
+        return store.state.playPanel.id
       }
     },
     methods: {
@@ -132,7 +132,8 @@
           ? (this.$refs.header.style.opacity = 1, this.$refs.header.style.filter = 'alpha(opacity:100)')
           : (this.$refs.header.style.opacity = opacity, this.$refs.header.style.filter = `alpha(opacity:${100})`);
       },
-      play(i){
+      play(i, id){
+        store.commit('setId', id)
         store.dispatch('set_sourceUrl', i);
         store.dispatch('set_percent')
       }

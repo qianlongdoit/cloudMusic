@@ -6,6 +6,8 @@ import global from '../../global'
 
 const state = {
   audioElement: '',  //audio标签
+  listId: -1, //当前播放歌单的id
+  id: -1, //当前播放歌曲的id
   listDetail: {   //原始后台传递的歌单信息
     tracks: []
   }, //歌单信息
@@ -37,6 +39,12 @@ const state = {
 const mutations = {
   setAudioElement(state, ele){
     state.audioElement = ele;
+  },
+  setListId(state, id){
+    state.listId = id;
+  },
+  setId(state, id){
+    state.id = id
   },
   play(state){
     state.playing = true;
@@ -172,6 +180,7 @@ const actions = {
       }))
       .catch((err)=>{
         console.log(err)
+        commit('setLrc', '[00:000.00] 暂无歌词')
       })
   },
   //  设置播放进度
