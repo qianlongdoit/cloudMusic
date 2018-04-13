@@ -44,7 +44,7 @@ const mutations = {
     state.listId = id
   },
   setId(state, id){
-    state.id = id
+    state.id = id ? id : state.currentCD.id;
   },
   play(state){
     state.playing = true;

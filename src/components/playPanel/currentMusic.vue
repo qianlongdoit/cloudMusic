@@ -175,11 +175,13 @@
         store.commit('playNext');
         store.dispatch('set_sourceUrl', store.state.playPanel.current)
         store.dispatch('set_percent')
+        store.commit('setId')
       },
       playPre(){
         store.commit('playNext', false);
         store.dispatch('set_sourceUrl', store.state.playPanel.current)
         store.dispatch('set_percent')
+        store.commit('setId')
       }
 
     },
@@ -263,6 +265,7 @@
       bottom 0
       left 0
       filter blur(35px)
+      opacity 0.5
       transform scale(1.2)
       z-index 4
     .current-music-content

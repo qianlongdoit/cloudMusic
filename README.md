@@ -1,5 +1,6 @@
-# client
-
+# 网易云音乐Web版
+用vue全家桶系列制作的移动端网易云音乐的Web版
+计划还原完全部的接口，但项目基于的接口有限，故只实现的有限的页面功能
 > A Vue.js project
 
 ## Build Setup
