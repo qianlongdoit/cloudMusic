@@ -12,7 +12,7 @@ const state = {
     tracks: []
   }, //歌单信息
   playModel: 0, //播放模式  0、列表循环 1、随机播放 2、单曲循环
-  volume: 0.6,
+  volume: 0.6,  //播放音量(0-1)
   listSheet: [],  //播放列表
   showSongList: false,  //播放列表是否显示
   showMusicList: false, //歌单列表是否显示
@@ -27,7 +27,7 @@ const state = {
     alia: []
   },
   lrc: '歌词加载中...',  //当前的歌词信息
-  lrcIndex: 0,  //当前播放歌词的索引
+  lrcIndex: 0,  //当前播放歌词行数的索引
   current: 0, //当前播放的列表中的索引
   musicDuration: 0, //歌曲时长(毫秒)
   percent: 0, //当前播放时间的比例(0-1)
@@ -41,7 +41,7 @@ const mutations = {
     state.audioElement = ele;
   },
   setListId(state, id){
-    state.listId = id;
+    state.listId = id
   },
   setId(state, id){
     state.id = id
@@ -75,7 +75,6 @@ const mutations = {
     }
   },
   togglePlay(state){
-    // state.playing ? state.audioElement.pause() : state.audioElement.play();
     state.playing ? (state.audioElement.pause(), clearInterval(state.timer)) : state.audioElement.play();
     state.playing = !state.playing;
   },
@@ -175,10 +174,10 @@ const actions = {
       });
     //  获取指定歌曲的lrc
     axios.get(global.serverAddress + '/lyric?id=' + state.currentCD.id)
-      .then((res=>{
+      .then((res => {
         commit('setLrc', res.data.lrc.lyric)
       }))
-      .catch((err)=>{
+      .catch((err) => {
         console.log(err)
         commit('setLrc', '[00:000.00] 暂无歌词')
       })
@@ -186,7 +185,7 @@ const actions = {
   //  设置播放进度
   set_percent({commit, state}, rePlay = true){
     clearInterval(state.timer);
-    commit('setTimer',setInterval(() => {
+    commit('setTimer', setInterval(() => {
       var percent = state.audioElement.currentTime * 1000 / state.musicDuration;
       // console.log(state.audioElement.currentTime)
       commit('setPercent', percent)

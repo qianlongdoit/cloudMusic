@@ -68,6 +68,7 @@
       },
       play(i){
         store.dispatch('set_sourceUrl', i);
+        store.commit('setId', store.state.playPanel.listDetail.id)
       },
       removeOneSong($event, i){
         $event.stopPropagation();

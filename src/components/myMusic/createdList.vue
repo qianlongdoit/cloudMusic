@@ -1,6 +1,6 @@
 <template>
   <div class="createdList">
-    <div class="listBand" @click.native="toggle">
+    <div class="listBand" @click="toggle">
       <i class="icon" :class="[notHidden?'icon-down':'icon-right']"></i>
       <span class="title">{{title}}<b>({{list.length}})</b></span>
       <i class="setting icon-setting"></i>
@@ -11,7 +11,7 @@
         <img :src="item.coverImgUrl" alt="" class="cover">
         <div class="detail">
           <div class="detailWrapper">
-            <p class="listTitle">{{(index ===0 && list.subscribed)?'我喜欢的音乐':item.name}}</p>
+            <p class="listTitle">{{(index ===0 && !item.subscribed)?'我喜欢的音乐':item.name}}</p>
             <i class="down"></i>
             <span class="total">{{item.trackCount}}首</span>
           </div>
@@ -56,9 +56,9 @@
     methods: {
       toggle(){
         this.notHidden = !this.notHidden;
+        console.log(this.nowListId)
       },
       showMusicList(id){
-        store.commit('setListId', id)
         this.$axios.get(global.serverAddress + '/playlist/detail?id=' + id)
           .then((res) => {
             store.commit('setListDetail', res.data.playlist)
@@ -99,7 +99,7 @@
     background #f3f3f3
     .cover
       width 60px
-      height 60px
+      /*height 60px*/
       margin 5px 5px
     .detail
       position relative

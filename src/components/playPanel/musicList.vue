@@ -136,6 +136,7 @@
         store.commit('setId', id)
         store.dispatch('set_sourceUrl', i);
         store.dispatch('set_percent')
+        store.commit('setListId', store.state.playPanel.listDetail.id)
       }
     },
     watch: {
