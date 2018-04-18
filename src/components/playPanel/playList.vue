@@ -9,7 +9,7 @@
         <div class="controller">
           <p class="model">
             <i class="icon" :class="playModelClass[playSetting.playModel]" @click="switchModel"></i>
-            <span>{{playModelName[playSetting.playModel]}} ({{tracks.length}})</span>
+            <span>{{playModelName[playSetting.playModel]}} ({{listSheet.length}})</span>
           </p>
 
           <p class="action">
@@ -20,9 +20,9 @@
         </div>
 
         <div class="list-content" ref="listContent">
-          <div class="list-item" v-for="(item, index) in tracks" @click="play(index)">
-            <div class="item-info" :class="[index === now?'red':'']">
-              <i v-if="index === now" class="icon icon-volume-medium"></i>
+          <div class="list-item" v-for="(item, index) in listSheet" @click="play(index)">
+            <div class="item-info" :class="[item.id === id?'red':'']">
+              <i v-if="item.id === id" class="icon icon-volume-medium"></i>
               <span>{{item.name}}</span>
               <span class="artist"> - {{item.ar | artist}}</span>
             </div>
@@ -52,11 +52,11 @@
           playModel: store.state.playPanel.playModel
         }
       },
-      tracks(){
-        return store.state.playPanel.listDetail.tracks;
+      listSheet(){
+        return store.state.playPanel.listSheet;
       },
-      now(){
-        return store.state.playPanel.current
+      id(){
+        return store.state.playPanel.id
       }
     },
     methods: {

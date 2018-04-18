@@ -103,7 +103,9 @@ const mutations = {
   //  设置listDetail及listSheet
   setListDetail(state, obj){
     state.listDetail = obj;
-    state.listSheet = JSON.parse(JSON.stringify(obj.tracks));
+  },
+  setListSheet(state){
+    state.listSheet = JSON.parse(JSON.stringify(state.listDetail.tracks));
   },
   //  设置当前播发的CD
   setCurrentCD(state, index){
