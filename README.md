@@ -46,7 +46,9 @@
 3. 歌词lrc数据中，对双语歌词的解析显示、多个时间标签比如迭句部分歌词解析尚未优化
 
 ### 服务端
-服务端的转发是使用了[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)提供的api接口
+服务端的转发是使用了[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)提供的api接口  
+原项目的接口有更新，使用最新的接口会报错，故把当前使用的接口版本clone了一份放在本项目的目录[NeteaseCloudMusicApi](NeteaseCloudMusicApi)下  
+以下为原项目的安装及要求
 ```
 # 环境要求
 需要 NodeJS 6.0+ 环境
@@ -59,7 +61,7 @@ $ npm install
 $ node app.js
 ```
 
-## Build Setup
+## 前端使用
 
 ``` bash
 # install dependencies
