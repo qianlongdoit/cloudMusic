@@ -73,6 +73,7 @@ const mutations = {
         return false;
         break;
     }
+    state.id = state.currentCD.id
   },
   togglePlay(state){
     state.playing ? (state.audioElement.pause(), clearInterval(state.timer)) : state.audioElement.play();

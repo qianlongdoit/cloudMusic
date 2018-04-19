@@ -69,7 +69,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/theme.styl"
   .login
-    z-index 13
+    z-index 99
     position fixed
     top 0
     left 0

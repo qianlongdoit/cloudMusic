@@ -57,6 +57,9 @@
       },
       id(){
         return store.state.playPanel.id
+      },
+      now(){
+        return store.state.playPanel.current
       }
     },
     methods: {
